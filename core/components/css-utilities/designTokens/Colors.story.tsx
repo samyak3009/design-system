@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { Card, Heading, Table } from '@/index';
 import { getSchema } from './Schema';
@@ -28,7 +28,7 @@ export const colors = () => {
             : 'Others';
         return (
           <div className="mt-5 mb-5" key={idx}>
-            <Heading size="s">{heading}</Heading>
+ <Heading size="s">{heading}</Heading>
             <br />
             <Card className="h-100 overflow-hidden">
               <Table data={data} schema={colorSchema} />

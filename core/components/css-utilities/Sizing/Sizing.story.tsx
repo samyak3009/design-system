@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Heading, Paragraph, Card, Table, Text } from '@/index';
 import utilitiesSchema from '../Schema';
 
@@ -156,9 +156,9 @@ export const sizing = () => {
       &nbsp;
       <div className="height w-50">
         <div className="h-25 d-inline-block height-color mr-2">Height 25%</div>
-        <div className="h-50 d-inline-block height-color mr-2">Height 50%</div>
-        <div className="h-75 d-inline-block height-color mr-2">Height 75%</div>
-        <div className="h-100 d-inline-block height-color mr-2">Height 100%</div>
+      <div className="h-50 d-inline-block height-color mr-2">Height 50%</div>
+      <div className="h-75 d-inline-block height-color mr-2">Height 75%</div>
+      <div className="h-100 d-inline-block height-color mr-2">Height 100%</div>
       </div>
       &nbsp;
       <div className="DocPage-codeBlock">

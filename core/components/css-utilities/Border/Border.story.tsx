@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Heading, Paragraph, Card, Table, Text } from '@/index';
 import utilitiesSchema from '../Schema';
 
@@ -96,7 +96,7 @@ export const border = () => {
         }}
         className="mt-5 mb-8"
       >
-        <Card className="h-100">
+ <Card className="h-100">
           <Table
             data={data}
             schema={utilitiesSchema}
@@ -117,7 +117,7 @@ export const border = () => {
         }}
         className="mt-5 mb-8"
       >
-        <Card className="h-100">
+ <Card className="h-100">
           <Table
             data={radiusData}
             schema={utilitiesSchema}
@@ -134,7 +134,7 @@ export const border = () => {
       <Paragraph>Here are some representative examples of these classes:</Paragraph>
       &nbsp;
       <div className="pl-10 h-25 bg-light w-50">
-        <span className="border bg-secondary-lightest p-8 d-inline-block mr-6">border</span>
+ <span className="border bg-secondary-lightest p-8 d-inline-block mr-6">border</span>
         <span className="border-top bg-secondary-lightest p-8 d-inline-block mr-6">top</span>
         <span className="border-right bg-secondary-lightest p-8 d-inline-block mr-6">right</span>
         <span className="border-bottom bg-secondary-lightest p-8 d-inline-block mr-6">bottom</span>
@@ -142,7 +142,7 @@ export const border = () => {
       </div>
       &nbsp;
       <div className="DocPage-codeBlock w-50 pl-10">
-        {'<span className="border bg-secondary-lightest p-8 d-inline-block mr-6">border</span>'}
+{'<span className="border bg-secondary-lightest p-8 d-inline-block mr-6">border</span>'}
         <br />
         {'<span className="border-top bg-secondary-lightest p-8 d-inline-block mr-6">top</span>'}
         <br />
@@ -154,7 +154,7 @@ export const border = () => {
       </div>
       &nbsp;
       <div className="pl-10 h-25 bg-light w-50">
-        <span className="border border-0 bg-secondary-lightest p-8 d-inline-block mr-6">border-0</span>
+ <span className="border border-0 bg-secondary-lightest p-8 d-inline-block mr-6">border-0</span>
         <span className="border border-top-0 bg-secondary-lightest p-8 d-inline-block mr-6">top-0</span>
         <span className="border border-right-0 bg-secondary-lightest p-8 d-inline-block mr-6">right-0</span>
         <span className="border border-bottom-0 bg-secondary-lightest p-8 d-inline-block mr-6">bottom-0</span>
@@ -162,7 +162,7 @@ export const border = () => {
       </div>
       &nbsp;
       <div className="DocPage-codeBlock w-50 pl-10">
-        {'<span className="border border-0 bg-secondary-lightest p-8 d-inline-block mr-6">border-0</span>'}
+{'<span className="border border-0 bg-secondary-lightest p-8 d-inline-block mr-6">border-0</span>'}
         <br />
         {'<span className="border border-top-0 bg-secondary-lightest p-8 d-inline-block mr-6">top-0</span>'}
         <br />

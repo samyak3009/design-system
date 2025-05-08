@@ -44,11 +44,11 @@ const customCode = `
       }
 
       return (
-        <div className="w-100">
+        <div className="w-100"></div>
           <Card className="px-6 py-6">
-            <form onSubmit={this.onSubmit}>
-              <div className="d-flex flex-wrap">
-                <div className="mr-6 mb-6">
+            <form onSubmit={this.onSubmit}></form>
+              <div className="d-flex flex-wrap"></div>
+                <div className="mr-6 mb-6"></div>
                   <Label withInput={true}>Last Name</Label>
                   <Input
                     name="lastName"
@@ -59,7 +59,7 @@ const customCode = `
                     onChange={(event) => this.onChange(event.target.value, event.target.name)}
                   />
                 </div>
-                <div className="mr-6 mb-6">
+                <div className="mr-6 mb-6"></div>
                   <Label withInput={true}>First Name</Label>
                   <Input
                     name="firstName"
@@ -70,16 +70,16 @@ const customCode = `
                     onChange={(event) => this.onChange(event.target.value, event.target.name)}
                   />
                 </div>
-                <div className="mr-6 mb-6">
+                <div className="mr-6 mb-6"></div>
                   <Label withInput={true}>Gender</Label>
-                  <div className="d-flex">
+                  <div className="d-flex"></div>
                     <Button className="mr-3" onClick={() => this.onChange('Male', 'gender')}>Male</Button>
                     <Button className="mr-3" onClick={() => this.onChange('Female', 'gender')}>Female</Button>
                     <Button className="mr-3" onClick={() => this.onChange('Other', 'gender')}>Other</Button>
                     <Button onClick={() => this.onChange('Unknown', 'gender')}>Unknown</Button>
                   </div>
                 </div>
-                <div className="mr-6 mb-6" style={{ width: 'var(--spacing-640)' }}>
+                <div className="mr-6 mb-6" style={{ width: 'var(--spacing-640)' }}></div>
                   <Label withInput={true}>Date of Birth</Label>
                   <DatePicker
                     withInput={true}
@@ -91,7 +91,7 @@ const customCode = `
                     }}
                   />
                 </div>
-                <div className="mr-6 mb-6">
+                <div className="mr-6 mb-6"></div>
                   <Label withInput={true}>EMPI</Label>
                   <Input
                     name="empi"
@@ -102,7 +102,7 @@ const customCode = `
                     onChange={(event) => this.onChange(event.target.value, event.target.name)}
                   />
                 </div>
-                <div className="mr-6 mb-6">
+                <div className="mr-6 mb-6"></div>
                   <Label withInput={true}>MRN</Label>
                   <Input
                     name="mrn"
@@ -113,7 +113,7 @@ const customCode = `
                     onChange={(event) => this.onChange(event.target.value, event.target.name)}
                   />
                 </div>
-                <div className="mr-6 mb-6">
+                <div className="mr-6 mb-6"></div>
                   <Label withInput={true}>ZIP</Label>
                   <Input
                     name="zip"
@@ -124,7 +124,7 @@ const customCode = `
                     onChange={(event) => this.onChange(event.target.value, event.target.name)}
                   />
                 </div>
-                <div className="mr-6 mb-6" style={{ width: 'var(--spacing-640)' }}>
+                <div className="mr-6 mb-6" style={{ width: 'var(--spacing-640)' }}></div>
                   <Label withInput={true}>Primary Care Physician</Label>
                   <Select
                     width="100%"
@@ -142,7 +142,7 @@ const customCode = `
                     </Select.List>
                   </Select>
                 </div>
-                <div className="mr-6 mb-6" style={{ width: 'var(--spacing-640)' }}>
+                <div className="mr-6 mb-6" style={{ width: 'var(--spacing-640)' }}></div>
                   <Label withInput={true}>Region</Label>
                   <Select
                     width="100%"

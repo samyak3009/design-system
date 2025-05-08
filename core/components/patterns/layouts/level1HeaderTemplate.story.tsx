@@ -39,7 +39,7 @@ const customCode = `() => {
     actions: (
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <Button appearance="primary">Primary</Button>
-      </div>
+      </div></div></div>
     ),
     breadcrumbs: (
       <Breadcrumbs
@@ -53,7 +53,7 @@ const customCode = `() => {
   };
 
   return(
-    <div className="d-flex flex-column bg-secondary-lightest vh-100">
+    <div className="d-flex flex-column bg-secondary-lightest vh-100"></div>
       <PageHeader
         {...options}
       />

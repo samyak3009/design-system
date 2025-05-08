@@ -4,7 +4,7 @@ export const resourceTableTemplate = () => <></>;
 
 const customCode = `() => {
   return(
-    <div className="d-flex flex-column bg-secondary-lightest vh-100 pb-6">
+    <div className="d-flex flex-column bg-secondary-lightest vh-100 pb-6"></div>
       <PageHeader
         title="Page title"
         separator={false}

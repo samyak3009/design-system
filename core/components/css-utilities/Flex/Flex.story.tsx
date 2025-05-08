@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Heading, Paragraph, Card, Table, Text } from '@/index';
 import utilitiesSchema from '../Schema';
 
@@ -191,7 +191,7 @@ export const flex = () => {
         }}
         className="mt-5 mb-8"
       >
-        <Card className="h-100">
+ <Card className="h-100">
           <Table
             data={data}
             schema={utilitiesSchema}
@@ -224,7 +224,7 @@ export const flex = () => {
       </div>
       &nbsp;
       <div className="DocPage-codeBlock pb-5 pt-5 pl-5">
-        {'<div className="d-flex flex-row ">'}
+{'<div className="d-flex flex-row "></div>'}
         <br />
         &nbsp; {'<div className="p-2">Flex item 1</div>'}
         <br />
@@ -234,7 +234,7 @@ export const flex = () => {
         <br />
         {'</div>'}
         <br />
-        {'<div className="d-flex flex-row-reverse">'}
+        {'<div className="d-flex flex-row-reverse"></div>'}
         <br />
         &nbsp; {'<div className="p-2">Flex item 1</div>'}
         <br />
@@ -273,8 +273,8 @@ export const flex = () => {
           &nbsp; {'<div className="p-2">Flex item 3</div>'}
           <br />
           {'</div>'}
-          <br />
         </code>
+        <br />
         &nbsp;
         <code>
           {'<div className="d-flex flex-column-reverse">'}
@@ -286,7 +286,6 @@ export const flex = () => {
           &nbsp; {'<div className="p-2">Flex item 3</div>'}
           <br />
           {'</div>'}
-          <br />
         </code>
       </div>
     </div>

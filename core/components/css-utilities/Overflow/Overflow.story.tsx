@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Heading, Paragraph, Card, Table, Text } from '@/index';
 import utilitiesSchema from '../Schema';
 
@@ -21,7 +21,7 @@ export const overflow = () => {
         The CSS overflow property controls what happens to content that is too big to fit into an area.
       </Text>
       <div className="mb-8 mt-5">
-        <Card className="h-100">
+ <Card className="h-100">
           <Table
             data={data}
             schema={utilitiesSchema}
@@ -44,7 +44,7 @@ export const overflow = () => {
       </div>
       &nbsp;
       <div className="DocPage-codeBlock">
-        {'<div className="overflow-auto overflow">'}
+{'<div className="overflow-auto overflow"></div>'}
         <br />
         {
           'You can use the overflow property when you want to have better control of the layout. The overflow property specifies what happens if content overflows an element box.'
@@ -61,7 +61,7 @@ export const overflow = () => {
       </div>
       &nbsp;
       <div className="DocPage-codeBlock">
-        {'<div className="overflow-hidden overflow">'}
+{'<div className="overflow-hidden overflow">'}
         <br />
         {
           'You can use the overflow property when you want to have better control of the layout. The overflow property specifies what happens if content overflows an elements box.'

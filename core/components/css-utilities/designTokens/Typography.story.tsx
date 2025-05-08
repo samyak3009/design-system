@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { Card, Column, Heading, Table, Text, Paragraph, Row } from '@/index';
 import { getSchema } from './Schema';

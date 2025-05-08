@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Heading, Paragraph, Card, Table, Text, Row, Column } from '@/index';
 import { classSchema } from './Schema';
 import { sizeData, classData } from './Data';

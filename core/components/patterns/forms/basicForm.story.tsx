@@ -61,9 +61,9 @@ const customCode = `
       const { password = '' } = this.state.data;
 
       return (
-        <div style={{ width: '350px' }}>
+        <div style={{ width: '350px' }}></div>
           <Card className="px-6 py-6">
-            <form onSubmit={this.onSubmit}>
+            <form onSubmit={this.onSubmit}></form>
               <Heading className="mb-7" size="m">Login</Heading>
               <Label withInput={true}>Email</Label>
               <Input
@@ -87,7 +87,7 @@ const customCode = `
                   <Icon
                     name={this.state.passwordVisible ? 'visibility' : 'visibility_off'}
                     onClick={this.onActionClick}
-                  />
+                  / / />
                 )}
               />
               <Link target="_blank" href="#">Forgot Password?</Link>

@@ -83,7 +83,7 @@ const customCode = `() => {
   };
 
   return (
-    <div style={{ height: 'calc(80vh)', background: 'var(--secondary-lightest)' }}>
+    <div style={{ height: 'calc(80vh)', background: 'var(--secondary-lightest)' }}></div>
       <Collapsible expanded={expanded} onToggle={setExpanded}>
         <VerticalNav
           menus={menus}

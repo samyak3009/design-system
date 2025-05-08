@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Heading, Card, Text, Column, Row, Button } from '@/index';
 
 type ContainerProp = {
@@ -12,7 +12,7 @@ const Container = (props: ContainerProp) => {
     <Column size={4} className="m-5">
       <Card className="h-100 p-4">
         <div className="mb-4 d-flex align-items-center">
-          <Text weight="strong" className="mr-5">
+ <Text weight="strong" className="mr-5">
             ClassName:
           </Text>
           <code>{className}</code>
@@ -24,7 +24,7 @@ const Container = (props: ContainerProp) => {
             onClick={() => navigator.clipboard.writeText(className)}
           />
         </div>
-        <Text weight="strong" className="mr-5">
+      <Text weight="strong" className="mr-5">
           Properties:
         </Text>
         <code>{property}</code>

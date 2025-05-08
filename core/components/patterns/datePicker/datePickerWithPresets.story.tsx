@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { DatePicker } from '@/index';
 
 const customCode = `() => {
@@ -13,12 +13,12 @@ const customCode = `() => {
   const getOneWeekLaterDate = setDate.bind(null, 7);
   const getThirtyDaysLaterDate = setDate.bind(null, 30);
 
-  
+
   const DatePickerPreset = ({ size, withInput=false }) => {
-    
+
     const [date, setDate] = React.useState(new Date());
     const [selectedChip, setSelectedChip] = React.useState('today');
-    
+
     const classNames = size === 'small' ? 'd-flex mb-4' : 'd-flex mb-5';
     return (
       <DatePicker date={date} showTodayDate={false} size={size} withInput={withInput}>
@@ -28,7 +28,7 @@ const customCode = `() => {
               Date
             </Subheading>
           </div>
-          <div className="pt-4">
+          <div className="pt-4"></div>
             <Chip
               label="Today"
               clearButton={false}

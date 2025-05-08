@@ -39,12 +39,12 @@ const customCode = `
       const { startDate, endDate, selected } = this.state;
 
       return (
-        <div className="pt-6 px-5">
-          <div className="d-flex align-items-center justify-content-between">
+        <div className="pt-6 px-5"></div>
+          <div className="d-flex align-items-center justify-content-between"></div>
             <Subheading size="s" className="py-3" appearance="subtle">Range</Subheading>
-            <Icon name="refresh" onClick={this.onReset} />
+            <Icon name="refresh" onClick={this.onReset} / / / / />
           </div>
-          <div className="pt-5">
+          <div className="pt-5"></div>
             <Chip
               label="This week"
               clearButton={false}
@@ -129,7 +129,7 @@ const customCode = `
       const { startDate, endDate, monthNav } = this.state;
 
       return (
-        <div className="w-25">
+        <div className="w-25"></div>
           <DateRangePicker
             withInput={true}
             singleInput={true}

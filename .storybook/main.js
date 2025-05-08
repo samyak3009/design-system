@@ -5,68 +5,99 @@ const cssTokenFiles = [
   path.resolve(__dirname, '../css/src/tokens/index.css')
 ];
 
-module.exports = {
+/** @type { import('@storybook/react-webpack5').StorybookConfig } */
+const config = {
   stories: ['../core/components/**/*.story.@(js|jsx|ts|tsx)', '../core/ai-components/**/*.story.@(js|jsx|ts|tsx)'],
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {},
+  },
   addons: [
-    /**
-     * Adds following addons
-     * Docs
-     * Controls
-     * Actions
-     * Viewport
-     * Backgrounds
-     * Toolbars & globals
-     * https://storybook.js.org/docs/react/essentials/introduction
-     */
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
-    '@storybook/addon-knobs',
-    {
-      name: '@storybook/addon-postcss',
-      options: {
-        postcssLoaderOptions: {
-          implementation: require('postcss'),
-          postcssOptions: {
-            plugins: [
-              require('autoprefixer'),
-              require('postcss-color-mod-function')({
-                importFrom: cssTokenFiles,
-              }),
-            ],
-          },
-        },
-      },
-    },
-    {
-      name: 'storybook-css-modules',
-      options: {
-        cssModulesLoaderOptions: {
-          importLoaders: 1,
-          modules: {
-            localIdentName: '[local]', // Use local class names directly
-          },
-        },
-      },
-    },
+    '@storybook/addon-storysource',
+    '@storybook/addon-interactions',
+    '@storybook/addon-links',
+    'storybook-css-modules',
   ],
-  typescript: {
-    check: false,
-    checkOptions: {},
-    reactDocgen: 'react-docgen-typescript',
-    reactDocgenTypescriptOptions: {
-      shouldExtractLiteralValuesFromEnum: true,
-      propFilter(prop) {
-        if (prop.parent) {
-          return !prop.parent.fileName.includes('node_modules');
-        }
-        return true;
-      },
-    },
+  docs: {
+    autodocs: true,
   },
   webpackFinal: async (config, { configType }) => {
     config.resolve.alias['@'] = path.resolve(__dirname, '../core');
     config.resolve.alias['@css'] = path.resolve(__dirname, '../css/src');
     config.resolve.alias['@innovaccer/mds-images/ui-states'] = path.resolve(__dirname, '../mds-images/ui-states');
+
+    // Fix CSS loader configuration
+    // Find and remove any existing CSS rules to avoid conflicts
+    config.module.rules = config.module.rules.filter(rule =>
+      !(rule.test && rule.test.toString().includes('.css'))
+    );
+
+    // Add our custom CSS rule
+    config.module.rules.push({
+      test: /\.css$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
+          },
+        },
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              plugins: [
+                require('autoprefixer'),
+                require('postcss-color-mod-function')({
+                  importFrom: cssTokenFiles,
+                }),
+              ],
+            },
+          },
+        },
+      ],
+      include: path.resolve(__dirname, '../'),
+    });
+
+    // Configure babel-loader for JS and JSX files
+    config.module.rules.push({
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            '@babel/preset-env',
+            ['@babel/preset-react', { runtime: 'automatic' }]
+          ],
+          plugins: ['@babel/plugin-proposal-class-properties']
+        }
+      }
+    });
+
+    // Configure babel-loader for TS and TSX files
+    config.module.rules.push({
+      test: /\.(ts|tsx)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            '@babel/preset-env',
+            '@babel/preset-typescript',
+            ['@babel/preset-react', { runtime: 'automatic' }]
+          ],
+          plugins: ['@babel/plugin-proposal-class-properties']
+        }
+      }
+    });
+
+    // Ensure TypeScript files are properly resolved
+    config.resolve.extensions.push('.ts', '.tsx');
+
     // Return the altered config
     return config;
   },
@@ -81,3 +112,5 @@ module.exports = {
     },
   },
 };
+
+export default config;

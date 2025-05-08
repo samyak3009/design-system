@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Card, Table } from '@/index';
 import utilitiesSchema from '../Schema';
 
@@ -27,7 +27,7 @@ export const miscellaneous = () => {
   ];
   return (
     <div className="mt-8 mb-8">
-      <Card className="h-100">
+ <Card className="h-100">
         <Table
           data={data}
           schema={utilitiesSchema}

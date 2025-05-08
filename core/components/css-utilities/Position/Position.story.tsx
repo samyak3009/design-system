@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Heading, Card, Table, Text } from '@/index';
 import utilitiesSchema from '../Schema';
 import Paragraph from '@/components/atoms/paragraph';
@@ -32,7 +32,7 @@ export const position = () => {
       <br />
       <Text weight="strong">Use these shorthand utilities for quickly configuring the position of an element.</Text>
       <div className="mb-8 mt-5">
-        <Card className="h-100">
+ <Card className="h-100">
           <Table
             data={data}
             schema={utilitiesSchema}

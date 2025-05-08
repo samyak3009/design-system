@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Heading, Card, Table, Text } from '@/index';
 import utilitiesSchema from '../Schema';
 import Paragraph from '@/components/atoms/paragraph';
@@ -58,7 +58,7 @@ export const background = () => {
         }}
         className="mt-5 mb-8"
       >
-        <Card className="h-100">
+ <Card className="h-100">
           <Table
             data={data}
             schema={utilitiesSchema}
@@ -85,7 +85,7 @@ export const background = () => {
       <div className="p-7 mb-4 bg-dark Utilities-text--color">.bg-dark</div>
       &nbsp;
       <div className="DocPage-codeBlock pb-5 pt-5 pl-5">
-        {'<div className="p-7 mb-4 bg-primary" >.bg-primary </div>'}
+{'<div className="p-7 mb-4 bg-primary" >.bg-primary </div>'}
         <br />
         {'<div className="p-7 mb-4 bg-secondary">.bg-secondary </div>'}
         <br />

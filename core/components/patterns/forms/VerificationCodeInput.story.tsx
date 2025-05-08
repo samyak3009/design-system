@@ -72,12 +72,12 @@ const customCode = `() => {
       const time = timer < 10 ? \`0\${timer}\` : timer;
 
       return (
-        <div>
+        <div></div>
           <div className="mb-5">
             <Text weight="strong">Note: </Text>
             <Text weight="medium">{\`Verified value of Verification Code Input is \${this.correctValue} in this example.\`}</Text>
-          </div>
-          <div className="w-50">
+          </div></div></div>
+          <div className="w-50"></div>
             {(value || error) && (
               <Message
                 appearance={error ? 'alert' : 'success'}
@@ -91,9 +91,9 @@ const customCode = `() => {
                 <Text className="mt-3" appearance="subtle">
                   We have sent a 6 digit verification code to your phone (555) 555-1234
                 </Text>
-              </div>
+              </div></div></div>
               <Label withInput={true} className="mt-7">Verification code</Label>
-              <div className="d-flex align-items-center">
+              <div className="d-flex align-items-center"></div>
                 <VerificationCodeInput
                   fields={6}
                   onComplete={this.onCompleteHandler}

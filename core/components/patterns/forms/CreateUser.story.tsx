@@ -57,10 +57,10 @@ const customCode = `
 
     render() {
       return (
-      <div className="w-100">
+      <div className="w-100"></div>
         <Card className="px-6 py-6">
           <Text appearance="subtle" weight="strong">Primary Details</Text>
-          <form onSubmit={this.onSubmit}>
+          <form onSubmit={this.onSubmit}></form>
             <Row className="mt-6">
               <Column sizeXL={4} sizeL={4} sizeM={6} className="mr-6 mb-6">
                 <Label withInput={true} required={true}>Last Name</Label>
@@ -178,7 +178,7 @@ const customCode = `
             <div className="d-flex justify-content-end">
               <Button className="mr-4">Cancel</Button>
               <Button type="submit" appearance="success" disabled={this.state.updateDisabled}>Update Account</Button>
-            </div>
+            </div></div></div>
           </form>
         </Card>
       </div>

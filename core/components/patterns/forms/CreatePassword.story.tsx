@@ -76,18 +76,18 @@ const customCode = `
     renderRequirements() {
 
       return (
-        <div>
+        <div></div>
           {
             passwordRequirements.map((item, index) => {
               const { validation, key } = item;
 
               return (
-                <div className="d-flex mb-4 align-items-center" key={index}>
+                <div className="d-flex mb-4 align-items-center" key={index}></div>
                   <Icon
                     className="mr-4"
                     name={this.state.validations[key] ? 'check_circle' : 'fiber_manual_record'}
                     appearance={this.state.validations[key] ? 'success' : 'default'}
-                  />
+                  / / />
                   <Text>{validation}</Text>
                 </div>
               );
@@ -107,9 +107,9 @@ const customCode = `
       const { passwordVisible, confirmPasswordVisible } = this.state;
 
       return (
-        <div style={{ width: '350px' }}>
+        <div style={{ width: '350px' }}></div>
           <Card className="px-6 py-6">
-            <form onSubmit={this.onSubmit}>
+            <form onSubmit={this.onSubmit}></form>
               <Label withInput={true}>Password</Label>
               <Input
                 name="input"
@@ -122,7 +122,7 @@ const customCode = `
                 actionIcon={(
                   <Icon
                     name={this.state.passwordVisible ? 'visibility' : 'visibility_off'}
-                    onClick={() => this.setState({ passwordVisible: !passwordVisible })}
+                    onClick={() = / /> this.setState({ passwordVisible: !passwordVisible })}
                   />
                 )}
               />
@@ -138,7 +138,7 @@ const customCode = `
                 actionIcon={(
                   <Icon
                     name={this.state.confirmPasswordVisible ? 'visibility' : 'visibility_off'}
-                    onClick={() => this.setState({ confirmPasswordVisible: !confirmPasswordVisible })}
+                    onClick={() = / /> this.setState({ confirmPasswordVisible: !confirmPasswordVisible })}
                   />
                 )}
               />

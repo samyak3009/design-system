@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Heading, Paragraph, Card, Table, Text } from '@/index';
 import utilitiesSchema from '../Schema';
 
@@ -63,7 +63,7 @@ export const display = () => {
         }}
         className="mt-5 mb-8"
       >
-        <Card className="h-100">
+ <Card className="h-100">
           <Table
             data={data}
             schema={utilitiesSchema}
@@ -83,7 +83,7 @@ export const display = () => {
       <br />
       &nbsp;
       <div className="DocPage-codeBlock pb-5 pt-5 pl-5">
-        {'<div className="d-inline p-2">d-inline</div>'}
+{'<div className="d-inline p-2">d-inline</div>'}
         <br />
         {'<div className="d-inline p-2">d-inline</div>'}
         <br />
@@ -93,7 +93,7 @@ export const display = () => {
       <span className="d-block p-2 bg-dark Utilities-example Utilities-text--color ">d-block</span>
       &nbsp;
       <div className="DocPage-codeBlock pb-5 pt-5 pl-5">
-        {'<span className="d-block p-2">d-block</span>'}
+{'<span className="d-block p-2">d-block</span>'}
         <br />
         {'<span className="d-block p-2">d-block</span>'}
         <br />

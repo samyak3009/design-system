@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Heading, Paragraph, Card, Table } from '@/index';
 import utilitiesSchema from '../Schema';
 
@@ -35,7 +35,7 @@ export const textAlign = () => {
       <br />
       &nbsp;
       <div className="mt-5 mb-8 vh-50">
-        <Card className="h-100">
+ <Card className="h-100">
           <Table
             data={data}
             schema={utilitiesSchema}
@@ -50,7 +50,7 @@ export const textAlign = () => {
       <Heading size="m">Examples</Heading>
       <Paragraph>Here are some representative examples of these classes:</Paragraph>
       <div className="h-25 Utilities-example w-25">
-        <Card className="p-5 mb-5 text-align-start">Text Alignment: Start </Card>
+ <Card className="p-5 mb-5 text-align-start">Text Alignment: Start </Card>
         <Card className="p-5 mb-5 text-align-end">Text Alignment: End </Card>
         <Card className="p-5 mb-5 text-align-center">Text Alignment: Center </Card>
         <Card className="p-5 mb-5 text-align-justify">Text Alignment: Justify</Card>
@@ -58,7 +58,7 @@ export const textAlign = () => {
         <Card className="p-5 mb-5 text-align-right">Text Alignment: Right </Card>
       </div>
       <div className="DocPage-codeBlock w-50 pl-10">
-        {'<Card className="p-5 mb-5 text-align-start">Text Alignment: Start </Card>'}
+{'<Card className="p-5 mb-5 text-align-start">Text Alignment: Start </Card>'}
         <br />
         {'<Card className="p-5 mb-5 text-align-end">Text Alignment: End </Card>'}
         <br />

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Heading, Paragraph, Card, Table, Text } from '@/index';
 import utilitiesSchema from '../Schema';
 
@@ -42,7 +42,7 @@ export const align = () => {
         }}
         className="mt-5 mb-8"
       >
-        <Card className="h-100">
+ <Card className="h-100">
           <Table
             data={data}
             schema={utilitiesSchema}
@@ -58,7 +58,7 @@ export const align = () => {
       <Paragraph>Here are some representative examples of these classes:</Paragraph>
       &nbsp;
       <div className="pl-10 h-25 Utilities-example w-50">
-        <span className="align-baseline">baseline </span>
+ <span className="align-baseline">baseline </span>
         <span className="align-top">top </span>
         <span className="align-middle">middle </span>
         <span className="align-bottom">bottom </span>
@@ -67,7 +67,7 @@ export const align = () => {
       </div>
       &nbsp;
       <div className="DocPage-codeBlock w-50 pl-10">
-        {'<span className="align-baseline">baseline </span>'}
+{'<span className="align-baseline">baseline </span>'}
         <br />
         {'<span className="align-top">top </span>'}
         <br />

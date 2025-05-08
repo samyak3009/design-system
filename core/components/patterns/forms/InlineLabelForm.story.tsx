@@ -60,16 +60,16 @@ const customCode = `
       const { defaultLanguage, language, defaultPhoneNumber } = this.state.data;
 
       return (
-      <div className="w-100">
+      <div className="w-100"></div>
         <Card className="px-6 py-6">
-          <form onSubmit={this.onSubmit}>
+          <form onSubmit={this.onSubmit}></form>
             <Row className="mb-6">
               <Column size={3} className="d-flex align-items-center">
-                <Icon className="mr-4" name="language" />
+                <Icon className="mr-4" name="language" / / / / />
                 <Text>Known Languages</Text>
               </Column>
               <Column size={8} className="d-flex">
-                <div className="mr-5 w-25">
+                <div className="mr-5 w-25"></div>
                   <Select
                     width="100%"
                     triggerOptions={{ withClearButton: false }}
@@ -112,7 +112,7 @@ const customCode = `
             </Row>
             <Row className="my-5">
               <Column className="d-flex align-items-center" size={3}>
-                <Icon className="mr-4" name="record_voice_over" />
+                <Icon className="mr-4" name="record_voice_over" / / / / />
                 <Text>Preferred Method of Contact</Text>
               </Column>
               <Column size={8} className="d-flex">
@@ -133,7 +133,7 @@ const customCode = `
             </Row>
             <Row className="mt-6">
               <Column size={3} className="d-flex align-items-center">
-                <Icon className="mr-4" name="call" />
+                <Icon className="mr-4" name="call" / / / / />
                 <Text>Phone Numbers</Text>
               </Column>
               <Column size={8} className="d-flex">
@@ -187,13 +187,13 @@ const customCode = `
                 />
               </Column>
               <Column size={1} className="d-flex align-items-center justify-content-end">
-                <Icon name="flag" appearance="warning" className="mr-4"/>
+                <Icon name="flag" appearance="warning" className="mr-4"/ / / / />
               </Column>
             </Row>
           <div className="d-flex">
             <Button className="mr-4" type="submit" appearance="success">Save</Button>
             <Button>Cancel</Button>
-          </div>
+          </div></div></div>
           </form>
         </Card>
       </div>

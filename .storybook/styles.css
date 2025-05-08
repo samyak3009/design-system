@@ -1,0 +1,76 @@
+/* DocPage CSS */
+html, body {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.DocPage-editorTabs .TabsWrapper-header {
+  margin-left: var(--spacing-30)
+}
+
+.DocPage-codeBlock {
+  position: relative;
+  font-family: monospace !important;
+  font-size: 13px !important;
+  background: var(--inverse-lightest) !important;
+  margin-top: var(--spacing-20) !important;
+  margin-bottom: var(--spacing-20) !important;
+  padding: var(--spacing-20) !important;
+  white-space: break-spaces !important;
+  border-radius: var(--border-radius-10);
+}
+
+.Utilities-example {
+  padding:var(--spacing-60);
+  margin-right: 0;
+  margin-left: 0;
+  border-width:var(--border-width-05) ;
+  font-size:var(--font-size-m);
+  background-color: var(--inverse-lightest);
+}
+.Utilities-text--color{
+  color: var(--secondary);
+}
+.width-color{
+  background-color: var(--inverse-lightest);
+}
+.height-color{
+  background-color: var(--inverse-lightest);
+}
+.height{
+  height: 100px;
+  background-color:  var(--secondary);;
+}
+.Utilities-overflow{
+  background-color:var(--inverse-lightest);
+  width: 200px;
+  height: 100px;
+  border: var(--border-width-2-5) dotted black;
+}
+
+.sbdocs.sbdocs-wrapper {
+  padding: 0 !important;
+}
+
+table.docblock-argstable {
+  border-collapse: collapse;
+  border-radius: var(--border-radius-10);
+  border-style: hidden; 
+  box-shadow: 0 0 0 var(--border-width-05) var(--secondary-light);
+}
+
+table.docblock-argstable tbody {
+  box-shadow: none !important;
+  border-top: var(--border-width-2-5) solid var(--secondary-light);
+}
+
+/* Fade animations for code editor */
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}

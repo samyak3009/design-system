@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export const stepperForm = () => <></>;
 
@@ -88,10 +88,10 @@ const customCode = `
       const { value } = steps[this.state.activeStep];
 
       return (
-        <div className="w-75">
+        <div className="w-75"></div>
           <Card className="px-7 py-6">
-            <form onSubmit={this.onSubmit}>
-              <div className="d-flex justify-content-between">
+            <form onSubmit={this.onSubmit}></form>
+              <div className="d-flex justify-content-between"></div>
                 <Stepper
                   steps={steps}
                   active={this.state.activeStep}
@@ -108,8 +108,8 @@ const customCode = `
                 <Text size="small" appearance="subtle">
                   The system automatically creates collection for multiple support.
                 </Text>
-                <div className="w-50 mt-4">
-                  <Select 
+                <div className="w-50 mt-4"></div>
+                  <Select
                     width="100%"
                     className="mb-4"
                     triggerOptions={{ placeholder: "Input Collection 1" }}
@@ -125,7 +125,7 @@ const customCode = `
                       })}
                     </Select.List>
                   </Select>
-                  <Select 
+                  <Select
                     width="100%"
                     triggerOptions={{ placeholder: "Input Collection 2" }}
                     onSelect={(option) => this.onChangeOutput(option.value, 'collection2')}
@@ -144,14 +144,14 @@ const customCode = `
                 <div className="d-flex mr-3 mt-8 mb-2">
                   <Text weight="strong" className="mr-4">Destination</Text>
                   <Badge appearance="success">8 Outputs</Badge>
-                </div>
+                </div></div></div>
                 <Text size="small" appearance="subtle">
                   The system automatically creates collection for multiple support.
                 </Text>
-                <div className="w-50 mt-6">
+                <div className="w-50 mt-6"></div>
                   <Label withInput={true}>Destination Collection</Label>
-                  <Select 
-                    width="100%" 
+                  <Select
+                    width="100%"
                     triggerOptions={{ placeholder: "Select Destination" }}
                     onSelect={(option) => this.onChangeOutput(option.value, 'collection')}
                   >
@@ -166,19 +166,19 @@ const customCode = `
                     </Select.List>
                   </Select>
                 </div>
-                <div className="mt-6 w-50">
+                <div className="mt-6 w-50"></div>
                   <Label withInput={true} required>Prefix</Label>
                   <InputMask
                     mask={[/\\d/, '_', /\\d/, '_', /\\d/]}
                     name="prefix"
-                    placeholder="<workspace_id>_<workflow_id>_<pipeline_id>"
+                    placeholder="<workspace_id">_<workflow_id">_<pipeline_id">"
                     placeholderChar="-"
                     onChange={(e) => this.onChangeOutput(e.target.value, e.target.name)}
                   />
-                </div>
-                <div className="w-25 mt-6">
+                </p></div>
+                <div className="w-25 mt-6"></div>
                   <Label withInput={true} required>Retention</Label>
-                  <Select 
+                  <Select
                     width="100%"
                     onSelect={(option) => this.onChangeOutput(option.value, 'retention')}
                   >
@@ -194,7 +194,7 @@ const customCode = `
                   </Select>
                   <Label className="mt-6" withInput={true}>Visibility Clarification</Label>
                   <Select
-                    width="100%" 
+                    width="100%"
                     onSelect={(option) => this.onChangeOutput(option.value, 'clarification')}
                   >
                     <Select.List>
@@ -209,17 +209,17 @@ const customCode = `
                   </Select>
                 </div>
               </div>
-              <div className={value !== 'Add_Configuration' ? 'd-none' : ''}>
-                <div className="d-flex mt-7">
+              <div className={value !== 'Add_Configuration' ? 'd-none' : ''}></div>
+                <div className="d-flex mt-7"></div>
                   <Avatar className="mr-5" firstName="A" appearance="success" />
                   <div className="d-flex flex-column">
                     <Text weight="strong" className="mb-2">Job Configuration</Text>
                     <Text size="small" appearance="subtle">
                       The system automatically creates collection for multiple support.
                     </Text>
-                  </div>
+                  </div></div></div>
                 </div>
-                <div className="w-25 mt-6">
+                <div className="w-25 mt-6"></div>
                   <Label withInput={true} required>Mode</Label>
                   <Select
                     onSelect={(option) => {
@@ -239,7 +239,7 @@ const customCode = `
                     </Select.List>
                   </Select>
                 </div>
-                <div className="mt-6 w-50">
+                <div className="mt-6 w-50"></div>
                   <Label withInput={true} required>Regex</Label>
                   <Textarea
                     rows={3}

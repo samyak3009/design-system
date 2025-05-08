@@ -1,3 +1,4 @@
+/* DocPage CSS */
 html, body {
   height: 100%;
   overflow-y: auto;
@@ -54,7 +55,7 @@ html, body {
 table.docblock-argstable {
   border-collapse: collapse;
   border-radius: var(--border-radius-10);
-  border-style: hidden; 
+  border-style: hidden;
   box-shadow: 0 0 0 1px var(--secondary-light);
 }
 

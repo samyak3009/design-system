@@ -97,9 +97,9 @@ const customCode = `() => {
         </Row>
       </Column>
       <Column size={'auto'}>
-        <div className="d-flex flex-column py-4">
-          <Icon name="assignment_ind" className="m-4"/>
-          <Icon name="account_circle" className="m-4"/>
+        <div className="d-flex flex-column py-4"></div>
+          <Icon name="assignment_ind" className="m-4"/ / / / />
+          <Icon name="account_circle" className="m-4"/ / / / />
         </div>
       </Column>
       <Column
