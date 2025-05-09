@@ -1,73 +1,62 @@
-const path = require('path');
+import path from 'path';
+import autoprefixer from 'autoprefixer';
+import postcssColorModFunction from 'postcss-color-mod-function';
 
 const cssTokenFiles = [
   path.resolve(__dirname, '../css/src/variables/index.css'),
   path.resolve(__dirname, '../css/src/tokens/index.css')
 ];
 
-module.exports = {
-  stories: ['../core/components/**/*.story.@(js|jsx|ts|tsx)', '../core/ai-components/**/*.story.@(js|jsx|ts|tsx)'],
+/** @type { import('@storybook/react-webpack5').StorybookConfig } */
+const config = {
+  // For POC, we'll only include a few components
+  stories: [
+    // Select components for the POC
+    '../core/components/atoms/button/**/*.story.@(js|jsx|ts|tsx)',
+    '../core/components/atoms/icon/**/*.story.@(js|jsx|ts|tsx)',
+    '../core/components/atoms/text/**/*.story.@(js|jsx|ts|tsx)',
+    '../core/ai-components/Sara/**/*.story.@(js|jsx|ts|tsx)',
+  ],
   addons: [
-    /**
-     * Adds following addons
-     * Docs
-     * Controls
-     * Actions
-     * Viewport
-     * Backgrounds
-     * Toolbars & globals
-     * https://storybook.js.org/docs/react/essentials/introduction
-     */
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
-    '@storybook/addon-knobs',
-    {
-      name: '@storybook/addon-postcss',
-      options: {
-        postcssLoaderOptions: {
-          implementation: require('postcss'),
-          postcssOptions: {
-            plugins: [
-              require('autoprefixer'),
-              require('postcss-color-mod-function')({
-                importFrom: cssTokenFiles,
-              }),
-            ],
-          },
-        },
-      },
-    },
-    {
-      name: 'storybook-css-modules',
-      options: {
-        cssModulesLoaderOptions: {
-          importLoaders: 1,
-          modules: {
-            localIdentName: '[local]', // Use local class names directly
-          },
-        },
-      },
-    },
   ],
-  typescript: {
-    check: false,
-    checkOptions: {},
-    reactDocgen: 'react-docgen-typescript',
-    reactDocgenTypescriptOptions: {
-      shouldExtractLiteralValuesFromEnum: true,
-      propFilter(prop) {
-        if (prop.parent) {
-          return !prop.parent.fileName.includes('node_modules');
-        }
-        return true;
-      },
-    },
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {},
   },
-  webpackFinal: async (config, { configType }) => {
-    config.resolve.alias['@'] = path.resolve(__dirname, '../core');
-    config.resolve.alias['@css'] = path.resolve(__dirname, '../css/src');
-    config.resolve.alias['@innovaccer/mds-images/ui-states'] = path.resolve(__dirname, '../mds-images/ui-states');
-    // Return the altered config
+  docs: {
+    autodocs: true,
+  },
+  webpackFinal: async (config) => {
+    // Add PostCSS configuration
+    config.module.rules.push({
+      test: /\.css$/,
+      use: [
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              plugins: [
+                autoprefixer,
+                postcssColorModFunction({
+                  importFrom: cssTokenFiles,
+                }),
+              ],
+            },
+          },
+        },
+      ],
+    });
+
+    // Add aliases
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname, '../core'),
+      '@css': path.resolve(__dirname, '../css/src'),
+      '@innovaccer/mds-images/ui-states': path.resolve(__dirname, '../mds-images/ui-states'),
+    };
+
     return config;
   },
   refs: {
@@ -81,3 +70,5 @@ module.exports = {
     },
   },
 };
+
+export default config;

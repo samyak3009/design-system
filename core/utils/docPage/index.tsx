@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Description, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Description, ArgsTable } from '@storybook/blocks';
 import { renderToStaticMarkup } from 'react-dom/server';
 import reactElementToJSXString from 'react-element-to-jsx-string';
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -106,9 +106,49 @@ const renderCodeBlock = (val: string, shouldShowMore: boolean, showMoreHTML: boo
 );
 
 const getStory = () => {
-  const { storyId } = __STORYBOOK_STORY_STORE__.getSelection();
-  const story = __STORYBOOK_STORY_STORE__.fromId(storyId);
-  return { storyId, story };
+  try {
+    // In Storybook 7.x, we use the global context
+    // Check if urlStore and selection exist
+    if (!__STORYBOOK_PREVIEW__?.urlStore?.selection?.storyId) {
+      // Fallback to a default story if selection is not available
+      const stories = __STORYBOOK_PREVIEW__?.storyStore?.stories || new Map();
+      const firstStory = stories.size > 0 ? Array.from(stories.values())[0] : null;
+
+      if (firstStory) {
+        return {
+          storyId: firstStory.id,
+          story: firstStory
+        };
+      }
+
+      // If no stories are available, return a placeholder
+      return {
+        storyId: 'unknown',
+        story: {
+          parameters: {},
+          preparedStory: { component: {}, args: {} },
+          unboundStoryFn: () => null
+        }
+      };
+    }
+
+    const storyId = __STORYBOOK_PREVIEW__.urlStore.selection.storyId;
+    const storyContext = __STORYBOOK_PREVIEW__.storyById(storyId);
+
+    return { storyId, story: storyContext };
+  } catch (error) {
+    console.error('Error in getStory:', error);
+
+    // Return a placeholder if an error occurs
+    return {
+      storyId: 'error',
+      story: {
+        parameters: {},
+        preparedStory: { component: {}, args: {} },
+        unboundStoryFn: () => null
+      }
+    };
+  }
 };
 
 const getRawPreviewCode = (customCode: string, comp: React.ReactNode) => {
@@ -117,21 +157,47 @@ const getRawPreviewCode = (customCode: string, comp: React.ReactNode) => {
 ${customCode}
     `;
   }
-  const jsx = reactElementToJSXString(comp, JSXtoStringOptions);
-  const importString = generateImports(jsx, componentLib, '@innovaccer/design-system');
 
-  const code = `
-${importString}
-() => {
-  return(
+  if (!comp) {
+    // Return a placeholder if comp is null
+    return `// Import components from design system
+import { Text } from '@innovaccer/design-system';
+
+export default function PlaceholderComponent() {
+  return (
+    <Text>No component to display</Text>
+  );
+}`;
+  }
+
+  try {
+    const jsx = reactElementToJSXString(comp, JSXtoStringOptions);
+    const importString = generateImports(jsx, componentLib, '@innovaccer/design-system');
+
+    const code = `${importString}
+
+export default () => {
+  return (
 ${jsx
   .split('\n')
   .map((l) => `    ${l}`)
   .join('\n')}
   );
-}
-`;
-  return code;
+}`;
+    return code;
+  } catch (error) {
+    console.error('Error in getRawPreviewCode:', error);
+
+    // Return a placeholder if there's an error
+    return `// Import components from design system
+import { Text } from '@innovaccer/design-system';
+
+export default function ErrorComponent() {
+  return (
+    <Text>Error rendering component</Text>
+  );
+}`;
+  }
 };
 
 const StoryComp = (props: {
@@ -143,9 +209,18 @@ const StoryComp = (props: {
 }) => {
   const { customCode, noHtml, noSandbox } = props;
   const { story } = getStory();
-  // const comp = sp.storySource.source;
-  const comp = story.originalStoryFn();
-  const html = !noHtml ? renderToStaticMarkup(comp) : '';
+
+  // In Storybook 7.x, the story structure is different
+  let comp = null;
+  try {
+    if (story && story.unboundStoryFn && story.preparedStory && story.preparedStory.args) {
+      comp = story.unboundStoryFn(story.preparedStory.args);
+    }
+  } catch (error) {
+    console.error('Error rendering story component:', error);
+  }
+
+  const html = !noHtml && comp ? renderToStaticMarkup(comp) : '';
 
   const [activeTab, setActiveTab] = React.useState<number>(0);
   const [jsxCode, setJsxCode] = React.useState<string>(getRawPreviewCode(customCode, comp));
@@ -318,7 +393,7 @@ const StoryComp = (props: {
 
 export const docPage = () => {
   const { story, storyId } = getStory();
-  const sp = story.parameters;
+  const sp = story.parameters || {};
   const isEmbed = window.location.search.includes('embed=min');
   const isEmbedWithProp = window.location.search.includes('embed=prop');
   const isEmbedOnlyProp = window.location.search.includes('embed=prop-table');
@@ -337,8 +412,10 @@ export const docPage = () => {
     propDescription,
     sandboxTitle,
     isDeprecated,
-  } = sp.docs.docPage || {};
-  const { component: { displayName = '' } = {} } = story;
+  } = (sp.docs && sp.docs.docPage) || {};
+
+  // In Storybook 7.x, component info is in a different location
+  const displayName = story.preparedStory?.component?.displayName || '';
   const pageClassnames = classNames({
     DocPage: true,
     'pt-8 pb-8': !(isEmbed || isEmbedWithProp),

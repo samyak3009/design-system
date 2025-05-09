@@ -11,7 +11,8 @@ const generateImports = (str = '', lib: Record<string, unknown> = {}, libName: s
       return finalMap;
     }, {});
 
-  return `// import { ${Object.keys(componentsMap).join(', ')} } from '${libName}';`;
+  return `// Import components from design system
+import { ${Object.keys(componentsMap).join(', ')} } from '${libName}';`;
 };
 
 export default generateImports;
