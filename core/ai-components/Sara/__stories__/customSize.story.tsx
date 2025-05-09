@@ -1,8 +1,7 @@
 import React from 'react';
 import { Sara } from '@/index';
-import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof Sara> = {
+export default {
   title: 'Components/AI/Sara/Custom Size',
   component: Sara,
   parameters: {
@@ -14,9 +13,4 @@ const meta: Meta<typeof Sara> = {
   },
 };
 
-export default meta;
-type Story = StoryObj<typeof Sara>;
-
-export const CustomSize: Story = {
-  render: () => <Sara size={100} />,
-};
+export const CustomSize = () => <Sara size={100} />;

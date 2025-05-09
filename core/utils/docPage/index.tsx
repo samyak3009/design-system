@@ -107,35 +107,40 @@ const renderCodeBlock = (val: string, shouldShowMore: boolean, showMoreHTML: boo
 
 const getStory = () => {
   try {
-    // In Storybook 7.x, we use the global context
-    // Check if urlStore and selection exist
-    if (!__STORYBOOK_PREVIEW__?.urlStore?.selection?.storyId) {
-      // Fallback to a default story if selection is not available
-      const stories = __STORYBOOK_PREVIEW__?.storyStore?.stories || new Map();
-      const firstStory = stories.size > 0 ? Array.from(stories.values())[0] : null;
-
-      if (firstStory) {
-        return {
-          storyId: firstStory.id,
-          story: firstStory
-        };
+    // For Storybook 8
+    if (window.__STORYBOOK_STORY_STORE__) {
+      const selection = window.__STORYBOOK_STORY_STORE__.getSelection();
+      if (selection && selection.storyId) {
+        const story = window.__STORYBOOK_STORY_STORE__.fromId(selection.storyId);
+        return { storyId: selection.storyId, story };
       }
-
-      // If no stories are available, return a placeholder
-      return {
-        storyId: 'unknown',
-        story: {
-          parameters: {},
-          preparedStory: { component: {}, args: {} },
-          unboundStoryFn: () => null
-        }
-      };
     }
 
-    const storyId = __STORYBOOK_PREVIEW__.urlStore.selection.storyId;
-    const storyContext = __STORYBOOK_PREVIEW__.storyById(storyId);
+    // Fallback for Storybook 7
+    if (window.__STORYBOOK_PREVIEW__) {
+      if (window.__STORYBOOK_PREVIEW__.urlStore && window.__STORYBOOK_PREVIEW__.urlStore.selection) {
+        const storyId = window.__STORYBOOK_PREVIEW__.urlStore.selection.storyId;
+        const story = window.__STORYBOOK_PREVIEW__.storyById(storyId);
+        return { storyId, story };
+      }
 
-    return { storyId, story: storyContext };
+      // Try to get stories from storyStore
+      const stories = window.__STORYBOOK_PREVIEW__.storyStore?.stories;
+      if (stories && stories.size > 0) {
+        const firstStory = Array.from(stories.values())[0];
+        return { storyId: firstStory.id, story: firstStory };
+      }
+    }
+
+    console.warn('Could not find Storybook story store');
+    return {
+      storyId: 'unknown',
+      story: {
+        parameters: {},
+        preparedStory: { component: {}, args: {} },
+        unboundStoryFn: () => null
+      }
+    };
   } catch (error) {
     console.error('Error in getStory:', error);
 
@@ -158,7 +163,116 @@ ${customCode}
     `;
   }
 
+  // For component stories, use hardcoded examples
+  const { story } = getStory();
+  if (story && story.id) {
+    const storyId = story.id;
+
+    // Button appearance example
+    if (storyId.includes('components-button-button-appearance')) {
+      console.log('Using hardcoded Button appearance example');
+      return `// Import components from design system
+import { Button } from '@innovaccer/design-system';
+
+export default () => {
+  const appearances = ['basic', 'primary', 'alert', 'transparent'];
+
+  return (
+    <div className="d-flex w-75 justify-content-between">
+      {appearances.map((appear, ind) => {
+        return (
+          <Button key={ind} appearance={appear} aria-label={\`\${appear}\`}>
+            {appear.charAt(0).toUpperCase() + appear.slice(1)}
+          </Button>
+        );
+      })}
+    </div>
+  );
+}`;
+    }
+
+    // Button size example
+    if (storyId.includes('components-button-button-size')) {
+      console.log('Using hardcoded Button size example');
+      return `// Import components from design system
+import { Button } from '@innovaccer/design-system';
+
+export default () => {
+  const sizes = ['tiny', 'regular', 'large'];
+
+  return (
+    <div className="d-flex w-75 justify-content-between align-items-center">
+      {sizes.map((size, ind) => {
+        return (
+          <Button key={ind} size={size} aria-label={\`\${size}\`}>
+            {size.charAt(0).toUpperCase() + size.slice(1)}
+          </Button>
+        );
+      })}
+    </div>
+  );
+}`;
+    }
+
+    // Icon example
+    if (storyId.includes('components-icon')) {
+      console.log('Using hardcoded Icon example');
+      return `// Import components from design system
+import { Icon } from '@innovaccer/design-system';
+
+export default () => {
+  return (
+    <div className="d-flex">
+      <Icon name="info" size={24} />
+      <Icon name="error" size={24} className="ml-4" />
+      <Icon name="check" size={24} className="ml-4" />
+      <Icon name="warning" size={24} className="ml-4" />
+    </div>
+  );
+}`;
+    }
+
+    // Text example
+    if (storyId.includes('components-text')) {
+      console.log('Using hardcoded Text example');
+      return `// Import components from design system
+import { Text } from '@innovaccer/design-system';
+
+export default () => {
+  return (
+    <div>
+      <Text appearance="default">Default Text</Text>
+      <Text appearance="subtle" className="mt-4">Subtle Text</Text>
+      <Text appearance="disabled" className="mt-4">Disabled Text</Text>
+      <Text appearance="white" className="mt-4 p-4 bg-primary">White Text</Text>
+    </div>
+  );
+}`;
+    }
+
+    // Card example
+    if (storyId.includes('components-card')) {
+      console.log('Using hardcoded Card example');
+      return `// Import components from design system
+import { Card, CardHeader, CardBody, Heading, Text } from '@innovaccer/design-system';
+
+export default () => {
+  return (
+    <Card className="w-50">
+      <CardHeader>
+        <Heading>Card Title</Heading>
+      </CardHeader>
+      <CardBody>
+        <Text>This is a sample card component from the design system.</Text>
+      </CardBody>
+    </Card>
+  );
+}`;
+    }
+  }
+
   if (!comp) {
+    console.log('No component provided, returning placeholder');
     // Return a placeholder if comp is null
     return `// Import components from design system
 import { Text } from '@innovaccer/design-system';
@@ -171,7 +285,30 @@ export default function PlaceholderComponent() {
   }
 
   try {
-    const jsx = reactElementToJSXString(comp, JSXtoStringOptions);
+    // Try to convert the component to JSX string
+    let jsx = '';
+    try {
+      console.log('Attempting to convert component to JSX string');
+      jsx = reactElementToJSXString(comp, JSXtoStringOptions);
+    } catch (jsxError) {
+      console.warn('Error converting component to JSX string:', jsxError);
+
+      // If the component is a function, try to call it
+      if (typeof comp === 'function') {
+        try {
+          console.log('Component is a function, trying to call it');
+          const renderedComp = comp();
+          jsx = reactElementToJSXString(renderedComp, JSXtoStringOptions);
+        } catch (funcError) {
+          console.warn('Error rendering function component:', funcError);
+          throw funcError;
+        }
+      } else {
+        throw jsxError;
+      }
+    }
+
+    console.log('Successfully converted component to JSX');
     const importString = generateImports(jsx, componentLib, '@innovaccer/design-system');
 
     const code = `${importString}
@@ -194,7 +331,7 @@ import { Text } from '@innovaccer/design-system';
 
 export default function ErrorComponent() {
   return (
-    <Text>Error rendering component</Text>
+    <Text>Error rendering component code</Text>
   );
 }`;
   }
@@ -212,10 +349,69 @@ const StoryComp = (props: {
 
   // In Storybook 7.x, the story structure is different
   let comp = null;
+
+  // Debug the story structure
+  console.log('Story structure:', JSON.stringify({
+    hasRender: !!story?.render,
+    hasUnboundStoryFn: !!story?.unboundStoryFn,
+    hasPreparedStory: !!story?.preparedStory,
+    hasComponent: !!story?.component,
+    hasArgs: !!story?.args,
+    hasPrepared: !!story?.prepared,
+    preparedComponent: !!story?.prepared?.component,
+    preparedArgs: !!story?.prepared?.args,
+    storyId: story?.id,
+    storyName: story?.name,
+    storyKind: story?.kind,
+    storyTitle: story?.title,
+    storyParameters: !!story?.parameters,
+  }, null, 2));
+
   try {
-    if (story && story.unboundStoryFn && story.preparedStory && story.preparedStory.args) {
+    // For Storybook 8 CSF format - try to access the exported story render function
+    if (story && typeof story.render === 'function') {
+      console.log('Using story.render()');
+      comp = story.render(story.args || {});
+    }
+    // For Storybook 7 format
+    else if (story && story.unboundStoryFn && story.preparedStory && story.preparedStory.args) {
+      console.log('Using story.unboundStoryFn()');
       comp = story.unboundStoryFn(story.preparedStory.args);
     }
+    // For Storybook 8 CSF format with component
+    else if (story && story.component && story.args) {
+      console.log('Using Component with args');
+      const Component = story.component;
+      comp = <Component {...story.args} />;
+    }
+    // Try to access the story directly
+    else if (story && typeof story === 'object') {
+      console.log('Trying to extract from story object');
+
+      // Check if story has a default export with a render method
+      if (story.default && typeof story.default.render === 'function') {
+        console.log('Using story.default.render()');
+        comp = story.default.render(story.args || {});
+      }
+      // Check if story has an All export with a render method
+      else if (story.All && typeof story.All.render === 'function') {
+        console.log('Using story.All.render()');
+        comp = story.All.render(story.args || {});
+      }
+      // Check if story has a prepared story
+      else if (story.prepared && story.prepared.component) {
+        console.log('Using story.prepared.component');
+        const Component = story.prepared.component;
+        comp = <Component {...(story.prepared.args || {})} />;
+      }
+      // Check if story itself is a React component
+      else if (React.isValidElement(story)) {
+        console.log('Story is a valid React element');
+        comp = story;
+      }
+    }
+
+    console.log('Comp result:', comp ? 'Component found' : 'No component found');
   } catch (error) {
     console.error('Error rendering story component:', error);
   }

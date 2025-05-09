@@ -1,8 +1,7 @@
 import React from 'react';
 import { Icon } from '@/index';
-import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof Icon> = {
+export default {
   title: 'Components/Icon/All',
   component: Icon,
   parameters: {
@@ -50,9 +49,4 @@ const meta: Meta<typeof Icon> = {
   },
 };
 
-export default meta;
-type Story = StoryObj<typeof Icon>;
-
-export const All: Story = {
-  render: (args) => <Icon {...args} />,
-};
+export const All = (args) => <Icon {...args} />;

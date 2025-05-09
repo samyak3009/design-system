@@ -1,6 +1,6 @@
-import path from 'path';
-import autoprefixer from 'autoprefixer';
-import postcssColorModFunction from 'postcss-color-mod-function';
+const path = require('path');
+const autoprefixer = require('autoprefixer');
+const postcssColorModFunction = require('postcss-color-mod-function');
 
 const cssTokenFiles = [
   path.resolve(__dirname, '../css/src/variables/index.css'),
@@ -8,10 +8,8 @@ const cssTokenFiles = [
 ];
 
 /** @type { import('@storybook/react-webpack5').StorybookConfig } */
-const config = {
-  // For POC, we'll only include a few components
+module.exports = {
   stories: [
-    // Select components for the POC
     '../core/components/atoms/button/**/*.story.@(js|jsx|ts|tsx)',
     '../core/components/atoms/icon/**/*.story.@(js|jsx|ts|tsx)',
     '../core/components/atoms/text/**/*.story.@(js|jsx|ts|tsx)',
@@ -26,8 +24,12 @@ const config = {
     options: {},
   },
   docs: {
-    autodocs: true,
+    autodocs: 'tag',
+    defaultName: 'Documentation',
   },
+  staticDirs: ['../public'],
+
+  // Webpack configuration
   webpackFinal: async (config) => {
     // Add PostCSS configuration
     config.module.rules.push({
@@ -49,6 +51,13 @@ const config = {
       ],
     });
 
+    // Configure babel for JSX and TypeScript
+    config.module.rules.push({
+      test: /\.(js|jsx|ts|tsx)$/,
+      exclude: /node_modules/,
+      use: ['babel-loader'], // Uses .babelrc configuration
+    });
+
     // Add aliases
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -57,8 +66,27 @@ const config = {
       '@innovaccer/mds-images/ui-states': path.resolve(__dirname, '../mds-images/ui-states'),
     };
 
+    // Add extensions
+    config.resolve.extensions.push('.ts', '.tsx');
+
     return config;
   },
+
+  // TypeScript configuration
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      shouldExtractLiteralValuesFromEnum: true,
+      propFilter(prop) {
+        if (prop.parent) {
+          return !prop.parent.fileName.includes('node_modules');
+        }
+        return true;
+      },
+    },
+  },
+
+  // External references
   refs: {
     'rich-text-editor': {
       title: 'Rich Text Editor',
@@ -70,5 +98,3 @@ const config = {
     },
   },
 };
-
-export default config;

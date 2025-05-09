@@ -1,41 +1,34 @@
-import React from 'react';
 import '../css';
 import './docPage.css';
 import { docPage } from '@/utils/docPage';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { primary } from './themes';
 
-/** @type { import('@storybook/react').Preview } */
-const preview = {
-  decorators: [
-    (Story) => (
-      <>
-        <Story />
-      </>
-    )
-  ],
+export default {
   parameters: {
     docs: {
       theme: primary,
       page: docPage,
+      canvas: {
+        sourceState: 'shown',
+      },
     },
     actions: { argTypesRegex: "^on[A-Z].*" },
-    controls: { expanded: true },
-    // Storybook a11y addon configuration
+    controls: {
+      expanded: true,
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
+    },
     a11y: {
-      // the target DOM element
       element: '#root',
-      // sets the execution mode for the addon
       manual: false,
     },
     viewport: {
       viewports: INITIAL_VIEWPORTS,
     },
     options: {
-      /**
-       * function to sort stories in the tree view
-       * @type {Function}
-       */
       storySort: (a, b) => {
         const getComponentName = story => {
           const splits = story.title.split('/');
@@ -53,5 +46,3 @@ const preview = {
     }
   }
 };
-
-export default preview;

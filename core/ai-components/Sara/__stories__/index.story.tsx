@@ -1,8 +1,7 @@
 import React from 'react';
 import { Sara } from '@/index';
-import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof Sara> = {
+export default {
   title: 'Components/AI/Sara/All',
   component: Sara,
   parameters: {
@@ -34,9 +33,4 @@ const meta: Meta<typeof Sara> = {
   },
 };
 
-export default meta;
-type Story = StoryObj<typeof Sara>;
-
-export const All: Story = {
-  render: (args) => <Sara {...args} />,
-};
+export const All = (args) => <Sara {...args} />;

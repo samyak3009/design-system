@@ -1,8 +1,7 @@
 import React from 'react';
 import { Button } from '@/index';
-import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof Button> = {
+export default {
   title: 'Components/Button/Button/All',
   component: Button,
   parameters: {
@@ -54,9 +53,4 @@ const meta: Meta<typeof Button> = {
   },
 };
 
-export default meta;
-type Story = StoryObj<typeof Button>;
-
-export const All: Story = {
-  render: (args) => <Button {...args} />,
-};
+export const All = (args) => <Button {...args} />;
