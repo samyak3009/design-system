@@ -1,3 +1,4 @@
+import type { StorybookConfig } from '@storybook/react-webpack5';
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const postcssColorModFunction = require('postcss-color-mod-function');
@@ -7,26 +8,32 @@ const cssTokenFiles = [
   path.resolve(__dirname, '../css/src/tokens/index.css')
 ];
 
-/** @type { import('@storybook/react-webpack5').StorybookConfig } */
-module.exports = {
+const config: StorybookConfig = {
   stories: [
     '../core/components/atoms/button/**/*.story.@(js|jsx|ts|tsx)',
     '../core/components/atoms/icon/**/*.story.@(js|jsx|ts|tsx)',
     '../core/components/atoms/text/**/*.story.@(js|jsx|ts|tsx)',
     '../core/ai-components/Sara/**/*.story.@(js|jsx|ts|tsx)',
   ],
+
   addons: [
+    '@storybook/addon-webpack5-compiler-swc',
+    '@storybook/addon-links',
     '@storybook/addon-essentials',
-    '@storybook/addon-a11y',
+    '@chromatic-com/storybook',
+    '@storybook/addon-interactions',
+    '@storybook/addon-storysource',
   ],
+
   framework: {
     name: '@storybook/react-webpack5',
     options: {},
   },
+
   docs: {
-    autodocs: 'tag',
-    defaultName: 'Documentation',
+    autodocs: true
   },
+
   staticDirs: ['../public'],
 
   // Webpack configuration
@@ -72,29 +79,9 @@ module.exports = {
     return config;
   },
 
-  // TypeScript configuration
   typescript: {
-    reactDocgen: 'react-docgen-typescript',
-    reactDocgenTypescriptOptions: {
-      shouldExtractLiteralValuesFromEnum: true,
-      propFilter(prop) {
-        if (prop.parent) {
-          return !prop.parent.fileName.includes('node_modules');
-        }
-        return true;
-      },
-    },
-  },
-
-  // External references
-  refs: {
-    'rich-text-editor': {
-      title: 'Rich Text Editor',
-      url: 'https://innovaccer.github.io/mds-rich-text-editor/',
-    },
-    'mds-helpers': {
-      title: 'MDS Helpers',
-      url: 'https://innovaccer.github.io/mds-helpers/',
-    },
-  },
+    reactDocgen: 'react-docgen-typescript'
+  }
 };
+
+export default config;
