@@ -12,7 +12,6 @@ const config: StorybookConfig = {
   stories: [
     '../core/components/atoms/button/**/*.story.@(js|jsx|ts|tsx)',
     '../core/components/atoms/icon/**/*.story.@(js|jsx|ts|tsx)',
-    '../core/components/atoms/text/**/*.story.@(js|jsx|ts|tsx)',
     '../core/ai-components/Sara/**/*.story.@(js|jsx|ts|tsx)',
   ],
 
@@ -34,7 +33,6 @@ const config: StorybookConfig = {
     autodocs: true
   },
 
-  staticDirs: ['../public'],
 
   // Webpack configuration
   webpackFinal: async (config) => {
