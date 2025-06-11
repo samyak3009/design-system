@@ -1,0 +1,114 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# MDX Documentation Page Generation Rules
+
+## Overview
+Create component-centric documentation pages in MDX format for Storybook v9, designed for developers and integrated with CSF-3 story format.
+
+## File Structure
+- **Location**: `component-name/__stories__/Docs.mdx`
+- **Reference**: Use AIButton component as structural template
+- **Integration**: Must work with `index.stories.tsx` file in same directory
+
+## Required Imports Template
+```tsx
+import { ComponentName } from '@/index';
+import * as ComponentStories from "./index.stories.tsx";
+import { RenderBlock } from "../../../utils/docPage/RenderBlock.tsx";
+import { Meta, Title, Description, Primary, Story, Controls, Source, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
+```
+
+## Document Structure Pattern
+Follow this exact order:
+
+### 1. Meta Declaration
+```mdx
+<Meta of={ComponentStories} />
+<br/>
+<Title />
+```
+
+### 2. Component Description
+- Extract relevant sections from `docs/src/pages/components/[component-name]/` files:
+- 1-2 sentences describing the component's purpose in the desciption
+- Keep it developer-focused and concise
+- Extract relevant content from existing docs/src/pages/component files
+
+### 3. Primary Story Showcase
+```mdx
+<RenderBlock of={ComponentStories.FirstStoryName} />
+```
+- Use the first/default story from the stories file
+- Provides live, editable component preview
+
+### 4. ArgTypes Table
+```mdx
+<ArgTypes />
+```
+- Automatically generates props documentation
+- No additional configuration needed
+
+### 5. Content Sections
+Extract relevant sections from `docs/src/pages/components/[component-name]/` files:
+please note that if any usage.mdx file contain the detail of more than 1 component then you must use the content which is releavent to the component for which you are creating the doc page.
+- **Overview**: Brief explanation of use cases
+- **Variants**: Different visual/functional variations
+- **States**: Interactive states (hover, focus, disabled, etc.)
+- **Structure**: Technical specifications (dimensions, styling)
+- **Configurations**: Props and their possible values
+
+## Content Extraction Guidelines
+
+### From Existing MDX Files
+- **Source**: `docs/src/pages/components/[component-name]/`
+- **Filter**: Include only content relevant to the specific component
+- **Exclude**: Designer-focused content, multiple component references
+- **Transform**: Make content developer-centric
+
+### Content Sections to Include
+1. **Technical specifications** (dimensions, styling rules)
+2. **Prop configurations** with default values
+3. **Usage examples** with RenderBlock
+4. **Variant explanations** with corresponding stories
+5. **State behaviors** and interactions
+
+### Content to Exclude
+- Marketing/branding language
+- Design process explanations
+- Multiple component comparisons
+- Designer-specific guidelines
+
+## RenderBlock Usage
+```mdx
+<RenderBlock of={ComponentStories.StoryName} />
+```
+- Use for demonstrating different variants
+- Show interactive states and behaviors
+- Reference specific stories from index.stories.tsx
+- Provides live code editing capability
+
+## Quality Standards
+- **Concise**: No redundant or verbose content
+- **Logical**: Information flows naturally from basic to advanced
+- **Developer-focused**: Technical implementation details over design theory
+- **Interactive**: Use RenderBlock for visual demonstrations
+- **Complete**: Cover all major props and use cases
+
+## Integration Requirements
+- Must reference stories from `index.stories.tsx`
+- All story references must exist in the stories file
+- Component import must match the actual component export
+- Maintain consistency with CSF-3 format conventions
+
+## Validation Checklist
+- [ ] File located in correct directory
+- [ ] All imports resolve correctly
+- [ ] Story references exist in index.stories.tsx
+- [ ] Content is component-specific
+- [ ] No redundant information
+- [ ] Interactive examples using RenderBlock
+- [ ] ArgTypes table renders correctly
+- [ ] Content flows logically from basic to advanced

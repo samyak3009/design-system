@@ -37,4 +37,6 @@ MenuList.defaultProps = {
   size: 'compressed',
 };
 
+MenuList.displayName = 'Menu.List';
+
 export default MenuList;

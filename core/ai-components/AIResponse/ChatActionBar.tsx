@@ -35,4 +35,6 @@ export const ChatActionBar = (props: ChatActionBarProps) => {
   );
 };
 
+ChatActionBar.displayName = 'AIResponse.ActionBar';
+
 export default ChatActionBar;

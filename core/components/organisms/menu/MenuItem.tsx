@@ -119,7 +119,7 @@ export const MenuItem = (props: MenuItemProps) => {
   );
 };
 
-MenuItem.displayName = 'MenuItem';
+MenuItem.displayName = 'Menu.Item';
 
 MenuItem.defaultProps = {
   tagName: 'a',

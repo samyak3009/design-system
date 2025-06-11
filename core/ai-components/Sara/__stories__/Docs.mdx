@@ -1,0 +1,102 @@
+import { Sara } from '@/index';
+import * as SaraStories from "./index.stories.tsx";
+import { RenderBlock } from "../../../utils/docPage/RenderBlock.tsx";
+import { Meta , Title, Description, Primary, Story, Controls, Source, Canvas, ArgTypes} from "@storybook/addon-docs/blocks";
+
+
+<Meta of={SaraStories} />
+<br/>
+<Title />
+
+Sara, represented by a magic sparkle, is the avatar used for artificial intelligence. Sara can indicate the presence of AI whenever the user is directly or indirectly interacting with it.
+
+<RenderBlock of={SaraStories.All} />
+
+<ArgTypes /> 
+
+### Overview
+
+Sara serves as the visual avatar for AI interactions, providing users with a clear indication when they are engaging with artificial intelligence. Use Sara to signal direct interactions with an AI agent, such as during text or voice conversations with AI.
+
+<RenderBlock of={SaraStories.All} />
+
+### States
+
+Sara has **2 states** - default and resting.
+
+<RenderBlock of={SaraStories.States} />
+
+### Sizes
+
+Sara supports **3 pre-defined sizes** - regular (32px), medium (48px) and large (64px). Sara's size can also be customized to meet specific design requirements.
+
+<RenderBlock of={SaraStories.Sizes} />
+
+### Custom Size
+
+Sara can be customized to any size based on your design needs.
+
+<RenderBlock of={SaraStories.CustomSize} />
+
+### Configurations
+
+<table style={{width: "100%"}}>
+  <tbody>
+    <tr>
+      <th style={{width:"33%",  textAlign: "left"}}>Property</th>
+      <th style={{width:"33%",  textAlign: "left"}}>Value(s)</th>
+      <th style={{width:"33%",  textAlign: "left"}}>Default value</th>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>size</td>
+      <td>
+          <ul>
+              <li>32</li>
+              <li>48</li>
+              <li>64</li>
+              <li>Custom (e.g., 128)</li>
+          </ul>
+      </td>
+      <td>32</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>state</td>
+      <td>
+          <ul>
+              <li>default</li>
+              <li>resting</li>
+          </ul>
+      </td>
+      <td>default</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>alt</td>
+      <td>string</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+### Usage Guidelines
+
+#### When to Use Sara
+
+- **Direct AI Interactions**: Use Sara where users interact directly with the AI agent, such as through chat or voice conversations
+- **AI Agent Representation**: When you need to represent the AI as a conversational entity
+- **AI Presence Indication**: To clearly signal when AI is actively engaged in the interaction
+
+#### Sara as Agent
+
+Use Sara where users interact directly with the AI agent, such as through chat or voice conversations. This helps establish a clear understanding that users are communicating with an artificial intelligence system.
+
+#### States Usage
+
+- **Default State**: Use for standard AI interactions and when the AI is actively engaged
+- **Resting State**: Use when the AI is in a passive or idle state, providing visual feedback about the AI's current status
+
+#### Size Guidelines
+
+- **32px (Regular)**: Use for compact interfaces and secondary AI indicators
+- **48px (Medium)**: Use for standard UI elements where Sara needs moderate prominence
+- **64px (Large)**: Use for primary AI interactions and when Sara needs high visibility
+- **Custom Sizes**: Use larger custom sizes for hero sections or when Sara is the primary focus of the interface 

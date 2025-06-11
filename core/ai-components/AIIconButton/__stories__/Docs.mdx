@@ -1,0 +1,119 @@
+import { AIIconButton } from '@/index';
+import * as AIIconButtonStories from "./index.stories.tsx";
+import { RenderBlock } from "../../../utils/docPage/RenderBlock.tsx";
+import { Meta , Title, Description, Primary, Story, Controls, Source, Canvas, ArgTypes} from "@storybook/addon-docs/blocks";
+
+
+<Meta of={AIIconButtonStories} />
+<br/>
+<Title />
+
+AI Icon Button can be used for AI actions when there is a space constraint and the meaning of the icon is universal. It features a sparkle icon that can be positioned on top right or bottom right of the icon button.
+
+<RenderBlock of={AIIconButtonStories.All} />
+
+<ArgTypes /> 
+
+### Overview
+
+AI Icon Button provides a compact way to initiate AI-powered actions when space is limited and the icon meaning is universally understood. The distinctive sparkle indicator signals to users that the action utilizes AI capabilities.
+
+<RenderBlock of={AIIconButtonStories.All} />
+
+### States
+
+AI Icon Button supports **5 states** - default, hover, active, focus and disabled.
+
+<RenderBlock of={AIIconButtonStories.States} />
+
+### Icon Sizes
+
+The component supports two icon sizes to accommodate different use cases and visual hierarchies.
+
+<RenderBlock of={AIIconButtonStories.IconSize} />
+
+### Sparkle Position
+
+The magic sparkle icon can be positioned at either top-right or bottom-right of the icon button, allowing for flexible placement based on design requirements.
+
+<RenderBlock of={AIIconButtonStories.IconPosition} />
+
+### Structure
+
+<table style={{width: "100%"}}>
+  <tbody>
+    <tr>
+      <th style={{width:"50%",  textAlign: "left"}}>Property</th>
+      <th style={{width:"50%",  textAlign: "left"}}>Value(s)</th>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>Height</td>
+      <td>32px</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>Corner radius</td>
+      <td>4 px</td>
+    </tr>
+  </tbody>
+</table>
+
+### Configurations
+
+<table style={{width: "100%"}}>
+  <tbody>
+    <tr>
+      <th style={{width:"33%",  textAlign: "left"}}>Property</th>
+      <th style={{width:"33%",  textAlign: "left"}}>Value(s)</th>
+      <th style={{width:"33%",  textAlign: "left"}}>Default value</th>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>size</td>
+      <td>
+          <ul>
+              <li>regular</li>
+              <li>large</li>
+          </ul>
+      </td>
+      <td>regular</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>position</td>
+      <td>
+          <ul>
+              <li>top</li>
+              <li>bottom</li>
+          </ul>
+      </td>
+      <td>top</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>disabled</td>
+      <td>
+          <ul>
+              <li>true</li>
+              <li>false</li>
+          </ul>
+      </td>
+      <td>false</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>tooltip</td>
+      <td>string</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+### Usage Guidelines
+
+#### When to Use AI Icon Button
+
+- **Space Constraints**: Use when there's limited space but you need to indicate AI functionality
+- **Universal Icons**: Ensure the icon meaning is universally understood by users
+- **Secondary AI Actions**: For AI actions that don't require primary emphasis but need clear identification
+
+#### Sparkle Positioning
+
+The sparkle icon aligns with the edges of the icon container and can be positioned based on your layout needs:
+- **Top Position**: Use when the sparkle won't interfere with other UI elements above
+- **Bottom Position**: Use when you need to avoid visual conflicts with elements positioned above the button 

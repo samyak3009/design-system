@@ -1,0 +1,105 @@
+import { AIButton } from '@/index';
+import * as AIButtonStories from "./index.stories.tsx";
+import { RenderBlock } from "../../../utils/docPage/RenderBlock.tsx";
+import { Meta , Title, Description, Primary, Story, Controls, Source, Canvas, ArgTypes} from "@storybook/addon-docs/blocks";
+
+
+<Meta of={AIButtonStories} />
+<br/>
+<Title />
+
+AI Buttons initiate actions powered by AI and have a distinct appearance to signal users that the action utilizes AI capabilities.
+
+<RenderBlock of={AIButtonStories.All} />
+
+<ArgTypes /> 
+
+### Overview
+
+AI Button helps initiate actions powered by AI.
+
+<RenderBlock of={AIButtonStories.All} />
+
+### Variants
+
+AI button comes in **2 variants** based on their intent – default and with sparkle.
+
+#### Default 
+
+This variant consists of just text which brings low emphasis on the action.
+
+<RenderBlock of={AIButtonStories.WithoutSparkle} />
+
+#### With Sparkle
+
+This variant consists of an additional sparkle on the left for a touch of visual prominence bringing more attention on the action.
+
+<RenderBlock of={AIButtonStories.All} />
+
+### States
+
+AI button supports **5 states** - default, hover, active, focus and disabled.
+
+<RenderBlock of={AIButtonStories.State} />
+
+### Structure
+
+<table style={{width: "100%"}}>
+  <tbody>
+    <tr>
+      <th style={{width:"50%",  textAlign: "left"}}>Property</th>
+      <th style={{width:"50%",  textAlign: "left"}}>Value(s)</th>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>Height</td>
+      <td>32px</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>Corner radius</td>
+      <td>4 px</td>
+    </tr>
+  </tbody>
+</table>
+
+### Configurations
+
+<table style={{width: "100%"}}>
+  <tbody>
+    <tr>
+      <th style={{width:"33%",  textAlign: "left"}}>Property</th>
+      <th style={{width:"33%",  textAlign: "left"}}>Value(s)</th>
+      <th style={{width:"33%",  textAlign: "left"}}>Default value</th>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>withSparkle</td>
+      <td>
+          <ul>
+              <li>true</li>
+              <li>false</li>
+          </ul>
+      </td>
+      <td>true</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>appearance</td>
+      <td>
+          <ul>
+              <li>primary</li>
+              <li>basic</li>
+          </ul>
+      </td>
+      <td>primary</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>disabled</td>
+      <td>
+          <ul>
+              <li>true</li>
+              <li>false</li>
+          </ul>
+      </td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>
+

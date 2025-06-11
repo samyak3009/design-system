@@ -34,4 +34,6 @@ export const ChatBody = (props: ChatBodyProps) => {
   );
 };
 
+ChatBody.displayName = 'AIResponse.Body';
+
 export default ChatBody;

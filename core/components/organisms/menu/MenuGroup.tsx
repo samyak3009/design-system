@@ -46,6 +46,8 @@ export const MenuGroup = (props: MenuGroupProps) => {
   );
 };
 
+MenuGroup.displayName = 'Menu.Group';
+
 MenuGroup.defaultProps = {
   showDivider: true,
 };

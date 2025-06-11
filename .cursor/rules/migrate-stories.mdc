@@ -1,0 +1,112 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Storybook Migration Rules - CSF-3 Format with TypeScript
+
+## Overview
+Migrate existing Storybook stories from old format to CSF-3 format (Storybook v9) with full TypeScript conversion.
+
+## Migration Process
+
+### 1. File Structure Changes
+- **Target**: Create a single `index.stories.tsx` file inside the __stories__ directory of the component
+- **Source**: Consolidate all stories from `__stories__/*.story.(jsx|tsx)` files
+- **Action**: Replace the entire `__stories__/` directory with one consolidated file
+
+### 2. TypeScript Conversion Requirements
+- Convert all `.jsx` files to `.tsx`
+- Add proper TypeScript typing for all props and stories
+- Use `Meta<typeof Component>` and `StoryObj<typeof meta>` types
+- Import `Meta, StoryObj` from `@storybook/react-webpack5`
+
+### 3. CSF-3 Format Structure
+```typescript
+import React from 'react';
+import { Meta, StoryObj } from '@storybook/react-webpack5';
+import { ComponentName } from '@/index';
+
+const meta: Meta<typeof ComponentName> = {
+  title: 'Components/[Category]/ComponentName',
+  component: ComponentName,
+  parameters: {
+    docs: {
+      page: null,
+    },
+  },
+  tags: ['!autodocs'],
+};
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+// Simple stories with args only
+export const StoryName: Story = {
+  args: {
+    prop1: 'value1',
+    prop2: true,
+  },
+};
+
+// Complex stories requiring custom render function
+export const ComplexStory = () => {
+  // Custom logic here
+  return <ComponentName {...props} />;
+};
+```
+
+### 4. Story Migration Rules
+
+#### For Simple Stories (props only):
+- **Condition**: If the original story only passes different props to the component
+- **Action**: Convert to `Story` object with `args` property
+- **Example**: `<Button disabled={true}>Click</Button>` → `{ args: { disabled: true, children: 'Click' } }`
+
+#### For Complex Stories (custom logic/JSX):
+- **Condition**: If the story contains custom logic, multiple components, or complex JSX
+- **Action**: Keep as functional component but rename from `export const Name = () =>` format
+- **Preserve**: All custom logic, state management, and complex rendering
+
+### 5. File Cleanup Rules
+- **Delete**: All files in `__stories__/` directory after successful migration
+- **Rename**: Any remaining `.story.jsx` files to `.tsx` (if they contain reusable logic)
+- **Move**: Reusable story utilities to component directory or shared utils
+
+### 6. Title Convention
+- Maintain existing title structure from the original stories
+- Use format: `'Components/[Category]/ComponentName/[Variant]'`
+- Primary story should use base component name without variant
+
+### 7. Parameters Preservation
+- Preserve all existing `parameters` configuration
+- Maintain `docs.docPage` settings if present
+- Keep accessibility (`a11yProps`) documentation
+- Preserve custom parameters and decorators
+
+### 8. Import Management
+- Update all imports to use proper TypeScript syntax
+- Ensure all components are imported from `@/index`
+- Add type imports: `Meta, StoryObj` from `@storybook/react-webpack5`
+- Remove unused imports from consolidated file
+
+### 9. Error Handling
+- If migration fails, preserve original files
+- Log specific errors for manual review
+- Ensure no functionality is lost during migration
+- Validate that all stories render correctly after migration
+
+### 10. Quality Checks
+- Verify TypeScript compilation passes
+- Ensure all original stories are represented
+- Check that story functionality remains intact
+- Confirm proper CSF-3 format compliance
+
+## Migration Priority
+1. Simple prop-based stories → `Story` objects with `args`
+2. Complex functional stories → Preserve as functional components
+3. Utility functions → Move to appropriate locations
+4. Cleanup and TypeScript conversion
+
+- all the file and cost must be in typescript

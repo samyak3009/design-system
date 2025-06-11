@@ -9,7 +9,11 @@ const cssTokenFiles = [
 ];
 
 const config: StorybookConfig = {
-  stories: ['../core/components/**/*.story.@(js|jsx|ts|tsx)', '../core/ai-components/**/*.story.@(js|jsx|ts|tsx)'],
+  stories: [
+    '../core/ai-components/**/*.mdx',
+    '../core/ai-components/**/*.stories.@(js|jsx|ts|tsx)',
+    '../core/components/**/*.story.@(js|jsx|ts|tsx)'
+  ],
 
   addons: [
     '@storybook/addon-docs',

@@ -77,4 +77,6 @@ export const SubMenu = (props: SubMenuProps) => {
   return <SubMenuContext.Provider value={subMenuContextProp}>{subMenuElement}</SubMenuContext.Provider>;
 };
 
+SubMenu.displayName = 'Menu.SubMenu';
+
 export default SubMenu;

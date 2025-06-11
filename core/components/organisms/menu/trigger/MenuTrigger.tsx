@@ -48,4 +48,6 @@ export const MenuTrigger = (props: MenuTriggerProps) => {
   );
 };
 
+MenuTrigger.displayName = 'Menu.Trigger';
+
 export default MenuTrigger;

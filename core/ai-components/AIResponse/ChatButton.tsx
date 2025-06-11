@@ -30,4 +30,6 @@ export const ChatButton = (props: ChatButtonType) => {
   );
 };
 
+ChatButton.displayName = 'AIResponse.Button';
+
 export default ChatButton;
