@@ -1,0 +1,98 @@
+import { AvatarGroup } from '@/index';
+import * as AvatarGroupStories from "./index.stories.tsx";
+import { RenderBlock } from "../../../../utils/docPage/RenderBlock.tsx";
+import { Meta, Title, Description, Primary, Story, Controls, Source, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
+
+<Meta of={AvatarGroupStories} />
+<br/>
+<Title />
+
+<Description>
+  AvatarGroup displays a collection of avatars stacked together to represent multiple entities or users. It provides an interactive way to view and manage groups of users with customizable overflow behavior and popover details.
+</Description>
+
+<RenderBlock of={AvatarGroupStories.All} />
+
+<ArgTypes />
+
+## Overview
+
+AvatarGroup is used to display multiple user avatars in a condensed format. It automatically handles overflow by showing a count of additional users when the group exceeds the maximum display limit. Users can view additional details through an interactive popover.
+
+## Variants
+
+### With Images
+Display avatars with custom profile images for a more personalized representation.
+
+<RenderBlock of={AvatarGroupStories.WithImage} />
+
+### With Icons
+Use consistent icons when profile images are not available or for system entities.
+
+<RenderBlock of={AvatarGroupStories.WithIcon} />
+
+### With Presence
+Show user availability status with presence indicators like "active" and "away".
+
+<RenderBlock of={AvatarGroupStories.WithPresence} />
+
+### With Status
+Display custom status indicators with tooltips to provide additional context about users.
+
+<RenderBlock of={AvatarGroupStories.WithStatus} />
+
+## States
+
+### Size Variants
+AvatarGroup supports two sizes: **regular** (default) and **tiny** for different use cases.
+
+<RenderBlock of={AvatarGroupStories.Size} />
+
+### Interactive States
+Avatars support multiple states including disabled state with optional tooltip suffixes for clarity.
+
+<RenderBlock of={AvatarGroupStories.State} />
+
+## Structure
+
+### Overflow Behavior
+Control how avatars are displayed when exceeding the maximum count with dynamic width or truncation options.
+
+<RenderBlock of={AvatarGroupStories.OverflowBehavior} />
+
+### Max Count Guidelines
+- **Avatar Group**: Limited to 3 entities. For larger groups, only 2 avatars are shown with a +N counter
+- Additional avatars are accessible through hover/click popover interaction
+
+## Configurations
+
+### Border Customization
+Customize avatar borders to match your design system or highlight specific states.
+
+<RenderBlock of={AvatarGroupStories.BorderColor} />
+
+### Trigger Options
+Configure popover interaction through hover or click triggers based on your use case.
+
+<RenderBlock of={AvatarGroupStories.Trigger} />
+
+### Custom Popover
+Implement custom popover renderers for specialized display requirements and layouts.
+
+<RenderBlock of={AvatarGroupStories.CustomPopover} />
+
+## Technical Specifications
+
+### Props Configuration
+- **size**: `"regular" | "tiny"` - Controls avatar dimensions (default: `"regular"`)
+- **max**: `number` - Maximum avatars to display before showing count (default: `2`)
+- **borderColor**: `string` - Custom border color for avatars
+- **list**: `AvatarData[]` - Array of user data objects
+- **popoverOptions**: `object` - Configuration for overflow popover behavior
+
+### Popover Settings
+- **width**: Customizable width (default: 176px for avatar group)
+- **maxHeight**: Maximum height constraint (default: 256px)
+- **position**: Popover placement relative to trigger
+- **on**: Interaction trigger - `"hover" | "click"`
+- **withSearch**: Enable search functionality within popover 

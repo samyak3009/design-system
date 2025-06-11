@@ -1,0 +1,86 @@
+import { Backdrop, Button } from '@/index';
+import * as BackdropStories from "./index.stories.tsx";
+import { RenderBlock } from "../../../../utils/docPage/RenderBlock.tsx";
+import { Meta , Title, Description, Primary, Story, Controls, Source, Canvas, ArgTypes} from "@storybook/addon-docs/blocks";
+
+
+<Meta of={BackdropStories} />
+
+<Title />
+
+Backdrop provides emphasis on a particular element or parts of it by adding a dimmed layer over the application.
+
+<RenderBlock of={BackdropStories.All} />
+
+<ArgTypes /> 
+
+### Overview
+
+The backdrop component is used to provide emphasis on a particular element or parts of it. The backdrop signals to the user of a state change within the application and can be used for creating loaders, dialogs, and more. In its simplest form, the backdrop component will add a dimmed layer over your application.
+
+### States
+
+Backdrop supports **2 primary states** - closed and open.
+
+#### Closed
+
+The backdrop is hidden and does not affect the user interface.
+
+#### Open
+
+The backdrop is visible and creates a dimmed overlay on the application, preventing body scroll.
+
+### Structure
+
+<table style={{width: "100%"}}>
+  <tbody>
+    <tr>
+      <th style={{width:"50%",  textAlign: "left"}}>Property</th>
+      <th style={{width:"50%",  textAlign: "left"}}>Value(s)</th>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>Animation duration</td>
+      <td>120ms</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>Overlay opacity</td>
+      <td>60%</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>Z-index</td>
+      <td>Customizable (default browser behavior)</td>
+    </tr>
+  </tbody>
+</table>
+
+### Configurations
+
+<table style={{width: "100%"}}>
+  <tbody>
+    <tr>
+      <th style={{width:"33%",  textAlign: "left"}}>Property</th>
+      <th style={{width:"33%",  textAlign: "left"}}>Value(s)</th>
+      <th style={{width:"33%",  textAlign: "left"}}>Default value</th>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>open</td>
+      <td>
+          <ul>
+              <li>true</li>
+              <li>false</li>
+          </ul>
+      </td>
+      <td>Required prop</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>zIndex</td>
+      <td>
+          <ul>
+              <li>number</li>
+          </ul>
+      </td>
+      <td>undefined</td>
+    </tr>
+  </tbody>
+</table>
+

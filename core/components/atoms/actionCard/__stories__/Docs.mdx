@@ -1,0 +1,76 @@
+import { ActionCard } from '@/index';
+import * as ActionCardStories from "./index.stories.tsx";
+import { RenderBlock } from "../../../../utils/docPage/RenderBlock.tsx";
+import { Meta, Title, Description, Primary, Story, Controls, Source, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
+
+<Meta of={ActionCardStories} />
+<br/>
+<Title />
+
+Action cards facilitate navigation by offering clear descriptions and a design that is both engaging and balanced. They are interactive components used for actions like navigation when options need to be descriptive with a strong visual representation.
+
+<RenderBlock of={ActionCardStories.Default} />
+
+<ArgTypes />
+
+## Overview
+
+Action cards are flexible and make for an easily scannable way to present navigation options. They provide a clickable interface that responds to user interactions with appropriate visual feedback.
+
+## States
+
+Action cards come in different states to provide clear feedback about their current status and user interactions.
+
+### Default and Disabled States
+
+<RenderBlock of={ActionCardStories.States} />
+
+The disabled state prevents user interaction and applies a visual overlay to indicate the card cannot be clicked.
+
+## Layouts
+
+Action cards support different content alignment patterns depending on your design needs and content structure.
+
+### Content Alignment Options
+
+<RenderBlock of={ActionCardStories.Layouts} />
+
+#### Left Alignment
+It is recommended to align content to the left when a long description is used, providing more visual room to read each line effectively.
+
+#### Center Alignment  
+It is recommended to align content to the center when the icon is sufficient to convey information or when the description is short and concise.
+
+## Configurations
+
+### Interactive Cards
+
+Action cards can be made interactive by providing an `onClick` handler. This enables keyboard navigation and click events.
+
+<RenderBlock of={ActionCardStories.WithClickHandler} />
+
+### Card Groups
+
+Multiple action cards can be arranged together to create organized option sets.
+
+<RenderBlock of={ActionCardStories.CardGroup} />
+
+### Custom Z-Index
+
+For disabled cards, you can customize the z-index of the disabled overlay using the `zIndex` prop.
+
+<RenderBlock of={ActionCardStories.WithCustomZIndex} />
+
+## Structure
+
+### Technical Specifications
+
+- **Corner radius**: 4px
+- **Padding**: 16px on all sides
+- **Spacing between content and icon**: 8px (center), 12px (left)
+- **Spacing between title and description**: 2px
+- **Recommended spacing between cards**: 16px
+
+### Props
+
+The ActionCard component accepts all valid HTML div element properties as props, along with the specific props listed in the ArgTypes table above. 

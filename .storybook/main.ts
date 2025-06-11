@@ -11,7 +11,9 @@ const cssTokenFiles = [
 const config: StorybookConfig = {
   stories: [
     '../core/ai-components/**/*.mdx',
+    '../core/components/**/*.mdx',
     '../core/ai-components/**/*.stories.@(js|jsx|ts|tsx)',
+    '../core/components/**/*.stories.@(js|jsx|ts|tsx)',
     '../core/components/**/*.story.@(js|jsx|ts|tsx)'
   ],
 

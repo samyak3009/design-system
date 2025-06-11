@@ -1,0 +1,52 @@
+import { AvatarSelection } from '@/index';
+import * as AvatarSelectionStories from "./index.stories.tsx";
+import { RenderBlock } from "../../../../utils/docPage/RenderBlock.tsx";
+import { Meta, Title, Description, Primary, Story, Controls, Source, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
+
+<Meta of={AvatarSelectionStories} />
+<br/>
+<Title />
+
+## Description
+
+Avatar Selection displays a group of avatars that can be interacted with for data filtering and user selection. It provides an intuitive interface for selecting multiple users from a list with search functionality.
+
+<RenderBlock of={AvatarSelectionStories.All} />
+
+<ArgTypes />
+
+## Overview
+
+Avatar Selection is primarily used for filtering data by users or entities. It provides a compact, visual way to display and select multiple avatars while maintaining good usability even with larger lists through search functionality.
+
+## Variants
+
+### With Presence Indicators
+
+Avatar Selection can include presence indicators that visually represent user availability status such as "active" and "away".
+
+<RenderBlock of={AvatarSelectionStories.WithPresence} />
+
+### With Status Indicators
+
+Avatar Selection can include custom status indicators to represent user-defined or system-determined messages, providing context about the user's current activity or situation.
+
+<RenderBlock of={AvatarSelectionStories.WithStatus} />
+
+## States
+
+Avatar Selection comes in **5 states** - default, hover, active, focus and disabled. The disabled state can include tooltip suffixes to inform users about the reason for the disabled state.
+
+<RenderBlock of={AvatarSelectionStories.States} />
+
+## Structure
+
+### List Item Sizes
+
+Avatar Selection supports different list item sizes to accommodate various design requirements:
+
+- **Standard**: Default size with comfortable spacing
+- **Compressed**: Reduced spacing for denser layouts  
+- **Tight**: Minimal spacing for maximum density
+
+<RenderBlock of={AvatarSelectionStories.ListItemSize} />

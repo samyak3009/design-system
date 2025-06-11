@@ -82,4 +82,6 @@ export const AvatarImage = (props: AvatarImageProps) => {
   );
 };
 
+AvatarImage.displayName = 'Avatar.Image';
+
 export default AvatarImage;

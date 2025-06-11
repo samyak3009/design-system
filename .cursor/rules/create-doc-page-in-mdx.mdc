@@ -17,7 +17,7 @@ Create component-centric documentation pages in MDX format for Storybook v9, des
 ```tsx
 import { ComponentName } from '@/index';
 import * as ComponentStories from "./index.stories.tsx";
-import { RenderBlock } from "../../../utils/docPage/RenderBlock.tsx";
+import { RenderBlock } from "../../../../utils/docPage/RenderBlock.tsx";
 import { Meta, Title, Description, Primary, Story, Controls, Source, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
 ```
 

@@ -43,4 +43,6 @@ export const AvatarIcon = (props: AvatarIconProps) => {
   return <Icon {...props} size={iconSize} appearance={iconAppearance} className={IconClassNames} />;
 };
 
+AvatarIcon.displayName = 'Avatar.Icon';
+
 export default AvatarIcon;

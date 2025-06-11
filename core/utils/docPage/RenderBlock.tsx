@@ -4,12 +4,11 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import reactElementToJSXString from 'react-element-to-jsx-string';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import * as DS from '@';
 import { Button, Card, CardHeader, Row, Column, Tooltip } from '@/index';
+import { Runner } from 'react-runner';
 import vsDark from 'prism-react-renderer/themes/vsDark';
-import { LiveProvider, LiveEditor, LiveError, LivePreview, withLive } from 'react-live';
+import { LiveProvider, LiveEditor } from 'react-live';
 import openSandbox from './sandbox';
-import generateImports from './generateImports';
 import * as componentLib from '@/index';
 import classNames from 'classnames';
 
@@ -24,30 +23,22 @@ const JSXtoStringOptions = {
   filterProps: (val: any) => {
     if (!val) return false;
     if (val && val.name === 'actionHandler') return false;
-    // if(val && typeof val === 'function') return false;
     return true;
   },
   showFunctions: true,
   functionValue: () => () => {
     return;
   },
-  // maxInlineAttributesLineLength: 10,
   showDefaultProps: false,
   useBooleanShorthandSyntax: false,
   displayName: (element: React.ReactNode): string => {
-    // Try to get a meaningful component name for subcomponents
     if (React.isValidElement(element) && element.type) {
       const type = element.type as any;
-
-      // If it's a native HTML element (string type), don't modify the display name
       if (typeof type === 'string') {
-        return type; // Return the original HTML tag name (div, span, p, etc.)
+        return type;
       }
-      // Only apply custom naming logic to React components (function/object types)
-      // Check for displayName first, then name, then try to extract from function toString
       if (type.displayName) return type.displayName;
       if (type.name) return type.name;
-      // For anonymous functions, try to extract name from function string
       if (typeof type === 'function') {
         const funcStr = type.toString();
         const match = funcStr.match(/function\s+([^(]+)/);
@@ -86,7 +77,6 @@ const CopyComp = (props: { onClick: OnClickType }) => {
   );
 };
 
-// Helper function to check if a string represents an object
 const isObjectString = (str: string): boolean => {
   if (typeof str !== 'string') return false;
   const trimmed = str.trim();
@@ -140,46 +130,101 @@ const renderCodeBlock = (val: string, shouldShowMore: boolean, showMoreHTML: boo
 
 const getRawPreviewCode = (customCode: string, comp: React.ReactNode, storyArgs?: any) => {
   if (customCode) {
-    return `${generateImports(customCode, componentLib, '@innovaccer/design-system')}
-${customCode}
-    `;
+    console.log('=== DEBUGGING CUSTOM CODE ===');
+    console.log('Original custom code:', customCode);
+
+    // For react-runner, we need to clean up the code and make it executable
+    let cleanCode = customCode.trim();
+
+    // Remove comment imports
+    const lines = cleanCode.split('\n');
+    const codeLines = lines.filter((line) => !line.trim().startsWith('// import'));
+    cleanCode = codeLines.join('\n').trim();
+
+    console.log('Clean code for react-runner:', cleanCode);
+
+    // Return the code as-is for react-runner - it handles TypeScript natively
+    return cleanCode;
   }
 
-  // If we have story args, try to create a more accurate JSX representation
   if (storyArgs && Object.keys(storyArgs).length > 0) {
     console.log('Using storyArgs for JSX generation:', storyArgs);
-    // Try to extract component name from the React element
     const componentName =
       comp && typeof comp === 'object' && 'type' in comp
         ? (comp.type as any)?.displayName || (comp.type as any)?.name || 'Component'
         : 'Component';
 
-    // Extract children from story args or React element
     let children = storyArgs.children;
     if (!children && comp && typeof comp === 'object' && 'props' in comp) {
       children = (comp.props as any)?.children;
     }
-    console.log('Detected children:', children);
 
-    // Generate props string from storyArgs (excluding children)
-    const propsString = Object.entries(storyArgs)
-      .filter(([key]) => key !== 'children') // Exclude children from props
-      .map(([key, value]) => {
-        if (typeof value === 'string') {
-          return `${key}="${value}"`;
-        } else if (typeof value === 'boolean') {
-          return value ? key : `${key}={false}`;
-        } else if (typeof value === 'number') {
-          return `${key}={${value}}`;
-        } else if (typeof value === 'object') {
-          return `${key}={${JSON.stringify(value)}}`;
-        } else {
-          return `${key}={${String(value)}}`;
-        }
-      })
-      .join(' ');
+    const formatValueForJSX = (value: any, indentLevel = 0): string => {
+      const indent = '  '.repeat(indentLevel);
+      const nextIndent = '  '.repeat(indentLevel + 1);
 
-    // Generate JSX with or without children
+      if (typeof value === 'string') {
+        return `"${value}"`;
+      } else if (typeof value === 'boolean') {
+        return `{${value}}`;
+      } else if (typeof value === 'number') {
+        return `{${value}}`;
+      } else if (React.isValidElement(value)) {
+        return `{${reactElementToJSXString(value, JSXtoStringOptions)}}`;
+      } else if (Array.isArray(value)) {
+        if (value.length === 0) return '{[]}';
+
+        const formattedItems = value.map((item) => {
+          if (typeof item === 'object' && item !== null) {
+            if (React.isValidElement(item)) {
+              return `${nextIndent}${reactElementToJSXString(item, JSXtoStringOptions)}`;
+            } else {
+              const objContent = Object.entries(item)
+                .map(([k, v]) => `${nextIndent}  ${k}: ${formatValueForJSX(v).replace(/^{|}$/g, '')}`)
+                .join(',\n');
+              return `${nextIndent}{\n${objContent}\n${nextIndent}}`;
+            }
+          } else {
+            return `${nextIndent}${formatValueForJSX(item).replace(/^{|}$/g, '')}`;
+          }
+        });
+
+        return `{[\n${formattedItems.join(',\n')}\n${indent}]}`;
+      } else if (typeof value === 'object' && value !== null) {
+        const objContent = Object.entries(value)
+          .map(([k, v]) => `${nextIndent}${k}: ${formatValueForJSX(v, indentLevel + 1).replace(/^{|}$/g, '')}`)
+          .join(',\n');
+        return `{{\n${objContent}\n${indent}}}`;
+      } else {
+        return `{${String(value)}}`;
+      }
+    };
+
+    const propsEntries = Object.entries(storyArgs).filter(([key]) => key !== 'children');
+
+    let propsString = '';
+    if (propsEntries.length > 0) {
+      const shouldUseMultiline = propsEntries.some(([, value]) => {
+        return Array.isArray(value) || (typeof value === 'object' && value !== null);
+      });
+
+      if (shouldUseMultiline) {
+        const formattedProps = propsEntries.map(([key, value]) => {
+          const formattedValue = formatValueForJSX(value, 1);
+          return `  ${key}=${formattedValue}`;
+        });
+        propsString = `\n${formattedProps.join('\n')}\n`;
+      } else {
+        propsString =
+          ' ' +
+          propsEntries
+            .map(([key, value]) => {
+              return `${key}=${formatValueForJSX(value)}`;
+            })
+            .join(' ');
+      }
+    }
+
     let jsxWithProps;
     if (children) {
       let childrenString;
@@ -187,15 +232,12 @@ ${customCode}
       if (typeof children === 'string') {
         childrenString = children;
       } else if (Array.isArray(children)) {
-        // Handle array of children (can be mixed strings and React components)
         childrenString = children
-          .map((child, index) => {
+          .map((child) => {
             if (typeof child === 'string') {
               return child;
             } else if (React.isValidElement(child)) {
-              // Convert React component to JSX string
               const jsxString = reactElementToJSXString(child, JSXtoStringOptions);
-              console.log(`JSX string for child ${index}:`, jsxString);
               return jsxString;
             } else {
               return String(child);
@@ -203,51 +245,75 @@ ${customCode}
           })
           .join('\n    ');
       } else if (React.isValidElement(children)) {
-        // Single React component - convert to JSX string
         const jsxString = reactElementToJSXString(children, JSXtoStringOptions);
-        console.log('JSX string for single child:', jsxString);
         childrenString = jsxString;
       } else {
-        // Fallback for other types
-        console.log('Using fallback for children:', children);
         childrenString = String(children);
       }
 
-      jsxWithProps = `<${componentName}${propsString ? ' ' + propsString : ''}>
-    ${childrenString}
-  </${componentName}>`;
+      jsxWithProps = `<${componentName}${propsString}>
+  ${childrenString}
+</${componentName}>`;
     } else {
-      jsxWithProps = `<${componentName}${propsString ? ' ' + propsString : ''} />`;
+      if (propsString.includes('\n')) {
+        jsxWithProps = `<${componentName}${propsString}/>`;
+      } else {
+        jsxWithProps = `<${componentName}${propsString} />`;
+      }
     }
 
-    const importString = generateImports(jsxWithProps, componentLib, '@innovaccer/design-system');
-
-    const code = `
-  ${importString}
-  () => {
-    return(
-      ${jsxWithProps}
-    );
-  }
-  `;
-    return code;
+    return `() => ${jsxWithProps}`;
   }
 
   const jsx = reactElementToJSXString(comp, JSXtoStringOptions);
-  const importString = generateImports(jsx, componentLib, '@innovaccer/design-system');
+  return `() => ${jsx}`;
+};
 
-  const code = `
-${importString}
-() => {
-  return(
-${jsx
-  .split('\n')
-  .map((l) => `    ${l}`)
-  .join('\n')}
+// Custom Preview Component using react-runner
+const CustomPreview = ({ code, zoom, scope }: { code: string; zoom: number; scope: any }) => {
+  const [error, setError] = React.useState<string | null>(null);
+
+  // Create a hash of the code to force re-rendering when code changes
+  const codeHash = React.useMemo(() => {
+    return btoa(code).slice(0, 10); // Simple hash for key
+  }, [code]);
+
+  return (
+    <div style={{ zoom: zoom, padding: '20px' }}>
+      {error && (
+        <div
+          style={{
+            background: '#ffebee',
+            border: '1px solid #f44336',
+            borderRadius: '4px',
+            padding: '12px',
+            marginBottom: '16px',
+            color: '#c62828',
+            fontFamily: 'monospace',
+            fontSize: '14px',
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          <strong>Error:</strong>
+          <br />
+          {error}
+        </div>
+      )}
+      <Runner
+        key={codeHash}
+        code={code}
+        scope={scope}
+        onRendered={(renderError) => {
+          if (renderError) {
+            console.error('Runner error:', renderError);
+            setError(renderError.toString());
+          } else {
+            setError(null);
+          }
+        }}
+      />
+    </div>
   );
-}
-`;
-  return code;
 };
 
 const StoryComp = (props: {
@@ -260,21 +326,27 @@ const StoryComp = (props: {
   const { customCode, noHtml, noSandbox, story } = props;
 
   const storyArgs = story.moduleExport.args || {};
-  console.log('storyArgs', storyArgs);
   const comp = story.originalStoryFn(storyArgs, story);
-  console.log('comp', comp);
   const html = !noHtml ? renderToStaticMarkup(comp) : '';
 
+  // Initialize JSX code with error handling
+  const getInitialJsxCode = () => {
+    try {
+      return getRawPreviewCode(customCode, comp, storyArgs);
+    } catch (error) {
+      console.error('Error generating code:', error);
+      return '// Error generating code - check console for details';
+    }
+  };
+
   const [activeTab, setActiveTab] = React.useState<number>(0);
-  const [jsxCode, setJsxCode] = React.useState<string>(getRawPreviewCode(customCode, comp, storyArgs));
+  const [jsxCode, setJsxCode] = React.useState<string>(getInitialJsxCode());
   const [htmlCode, setHtmlCode] = React.useState<string>(`${html}`);
   const [isExpanded, setIsExpanded] = React.useState(true);
   const [showMore, setShowMore] = React.useState<boolean>(false);
   const [shouldShowMore, setShouldShowMore] = React.useState<boolean>(false);
   const [zoom, setZoom] = React.useState(1);
   const [editorClassNames, setEditorClassNames] = React.useState<string>('fade-out');
-
-  const importScope = props.imports;
 
   const codePanel = React.useRef<HTMLDivElement>(null);
 
@@ -286,6 +358,22 @@ const StoryComp = (props: {
     setZoom(zoom * 0.8);
   };
 
+  const onCodeChange = React.useCallback((updatedCode: string) => {
+    setJsxCode(updatedCode);
+  }, []);
+
+  // Update HTML code when switching to HTML tab
+  React.useEffect(() => {
+    if (activeTab === 1 && !noHtml) {
+      try {
+        setHtmlCode(html);
+      } catch (e) {
+        console.error('Error generating HTML:', e);
+        setHtmlCode(`<!-- Error generating HTML: ${e} -->`);
+      }
+    }
+  }, [activeTab, html, noHtml]);
+
   React.useEffect(() => {
     if (isExpanded) {
       setEditorClassNames('fade-in');
@@ -294,143 +382,124 @@ const StoryComp = (props: {
     }
   }, [isExpanded]);
 
-  const TabsWrap = withLive<{ live?: any; activeTab: number }>(({ live, activeTab }) => {
-    const { error, element: Element } = live;
-
-    React.useEffect(() => {
-      if (!error && activeTab === 1) {
-        try {
-          const htmlValue = renderToStaticMarkup(<Element />);
-          setHtmlCode(htmlValue);
-        } catch (e) {
-          return;
-        }
-      }
-    }, [activeTab]);
-
-    React.useEffect(() => {
-      if (codePanel.current?.clientHeight && codePanel.current?.clientHeight > 450) {
-        setShouldShowMore(true);
-      }
-    }, [codePanel]);
-
-    return null;
-  });
-
-  const onChangeCode = React.useCallback((updatedCode) => {
-    setJsxCode(updatedCode);
-  }, []);
-
-  const imports = React.useMemo(() => ({ ...DS, ...importScope }), []);
+  React.useEffect(() => {
+    if (codePanel.current?.clientHeight && codePanel.current?.clientHeight > 450) {
+      setShouldShowMore(true);
+    }
+  }, [codePanel]);
 
   const tabChangeHandler = (tab: number) => {
     setActiveTab(tab);
     setShouldShowMore(false);
   };
 
-  return (
-    <LiveProvider code={jsxCode} scope={imports}>
-      <Row>
-        <Column size={12}>
-          <Card shadow="none" className="overflow-hidden">
-            <CardHeader>
-              <div className="d-flex justify-content-end">
-                <Button appearance="transparent" aria-label="Zoom In" onClick={handleZoomIn} icon="zoom_in" largeIcon />
-                <Button
-                  onClick={handleZoomOut}
-                  icon="zoom_out"
-                  appearance="transparent"
-                  aria-label="Zoom Out"
-                  largeIcon
-                ></Button>
-                <Button
-                  onClick={() => setZoom(1)}
-                  icon="restart_alt"
-                  appearance="transparent"
-                  aria-label="Reset Zoom"
-                  largeIcon
-                ></Button>
-              </div>
-            </CardHeader>
+  // Create scope for react-runner
+  const scope = React.useMemo(() => {
+    const importScope = props.imports || [];
+    return {
+      React,
+      classNames,
+      ...componentLib,
+      ...importScope.reduce((acc, imp) => {
+        acc[imp] = componentLib[imp as keyof typeof componentLib];
+        return acc;
+      }, {} as any),
+    };
+  }, [props.imports]);
 
-            <div className="px-7 pb-8 pt-6" style={{ overflow: 'auto', zoom: zoom }}>
-              <LivePreview />
-              <LiveError className="m-0" />
-            </div>
-          </Card>
-        </Column>
-        <Column size={12} className="d-flex justify-content-end py-6">
-          <Row>
-            {isExpanded && (
-              <Column size={6} className={`d-flex ${editorClassNames}`}>
-                <Button selected={activeTab === 0} onClick={() => tabChangeHandler(0)} size="tiny">
-                  React
-                </Button>
-                <Button selected={activeTab === 1} onClick={() => tabChangeHandler(1)} size="tiny" className="ml-4">
-                  HTML
-                </Button>
-              </Column>
-            )}
-            <Column size={isExpanded ? 6 : 12} className="d-flex justify-content-end">
+  return (
+    <Row>
+      <Column size={12}>
+        <Card shadow="none" className="overflow-hidden">
+          <CardHeader>
+            <div className="d-flex justify-content-end">
+              <Button appearance="transparent" aria-label="Zoom In" onClick={handleZoomIn} icon="zoom_in" largeIcon />
               <Button
-                onClick={(ev: React.MouseEvent) => {
-                  ev.preventDefault();
-                  openSandbox(jsxCode);
-                }}
-                className="ml-4"
-                size="tiny"
-                aria-label="Open code sandbox"
-                disabled={noSandbox}
-              >
-                Edit in sandbox
+                onClick={handleZoomOut}
+                icon="zoom_out"
+                appearance="transparent"
+                aria-label="Zoom Out"
+                largeIcon
+              />
+              <Button
+                onClick={() => setZoom(1)}
+                icon="restart_alt"
+                appearance="transparent"
+                aria-label="Reset Zoom"
+                largeIcon
+              />
+            </div>
+          </CardHeader>
+
+          <div className="px-7 pb-8 pt-6" style={{ overflow: 'auto' }}>
+            <CustomPreview code={jsxCode} zoom={zoom} scope={scope} />
+          </div>
+        </Card>
+      </Column>
+      <Column size={12} className="d-flex justify-content-end py-6">
+        <Row>
+          {isExpanded && (
+            <Column size={6} className={`d-flex ${editorClassNames}`}>
+              <Button selected={activeTab === 0} onClick={() => tabChangeHandler(0)} size="tiny">
+                React
               </Button>
-              <Button style={{ width: '86px' }} className="ml-4" size="tiny" onClick={() => setIsExpanded(!isExpanded)}>
-                {isExpanded ? 'Hide code' : 'Show code'}
+              <Button selected={activeTab === 1} onClick={() => tabChangeHandler(1)} size="tiny" className="ml-4">
+                HTML
               </Button>
             </Column>
-          </Row>
-        </Column>
-        {isExpanded && (
-          <Column size={12} className={editorClassNames}>
-            <Card shadow="none">
-              <TabsWrap activeTab={activeTab} />
-              <div
-                ref={codePanel}
-                style={{
-                  position: 'relative',
-                  // marginBottom: shouldShowMore ? '24px' : '',
-                  overflow: 'none',
-                }}
-                className="DocPage-editorTabs"
-              >
-                <div>
-                  {activeTab == 0 && (
-                    <div
-                      className="overflow-auto"
-                      style={{ height: getHeight(shouldShowMore, showMore), background: 'rgb(30, 30, 30)' }}
-                    >
-                      <CopyComp
-                        onClick={() => {
-                          const editor = document.querySelector(
-                            '.npm__react-simple-code-editor__textarea'
-                          ) as HTMLTextAreaElement;
-                          if (editor) copyCode(editor.value);
-                        }}
-                      />
-                      <LiveEditor theme={vsDark} onChange={onChangeCode} />
-                    </div>
-                  )}
-                  {activeTab == 1 && !noHtml && renderCodeBlock(htmlCode, shouldShowMore, showMore)}
-                </div>
-              </div>
-              {shouldShowMore && (
-                <ShowMoreLessButton onClick={() => setShowMore(!showMore)} text={showMore ? 'Less' : 'More'} />
-              )}
-            </Card>
+          )}
+          <Column size={isExpanded ? 6 : 12} className="d-flex justify-content-end">
+            <Button
+              onClick={(ev: React.MouseEvent) => {
+                ev.preventDefault();
+                openSandbox(jsxCode);
+              }}
+              className="ml-4"
+              size="tiny"
+              aria-label="Open code sandbox"
+              disabled={noSandbox}
+            >
+              Edit in sandbox
+            </Button>
+            <Button style={{ width: '86px' }} className="ml-4" size="tiny" onClick={() => setIsExpanded(!isExpanded)}>
+              {isExpanded ? 'Hide code' : 'Show code'}
+            </Button>
           </Column>
-        )}
-      </Row>
-    </LiveProvider>
+        </Row>
+      </Column>
+      {isExpanded && (
+        <Column size={12} className={editorClassNames}>
+          <Card shadow="none">
+            <div
+              ref={codePanel}
+              style={{
+                position: 'relative',
+                overflow: 'none',
+              }}
+              className="DocPage-editorTabs"
+            >
+              <div>
+                {activeTab === 0 && (
+                  <div
+                    className="overflow-auto"
+                    style={{ height: getHeight(shouldShowMore, showMore), background: 'rgb(30, 30, 30)' }}
+                  >
+                    <CopyComp onClick={() => copyCode(jsxCode)} />
+                    <LiveProvider code={jsxCode} scope={scope}>
+                      <LiveEditor theme={vsDark} onChange={onCodeChange} />
+                    </LiveProvider>
+                  </div>
+                )}
+                {activeTab === 1 && !noHtml && renderCodeBlock(htmlCode, shouldShowMore, showMore)}
+              </div>
+            </div>
+            {shouldShowMore && (
+              <ShowMoreLessButton onClick={() => setShowMore(!showMore)} text={showMore ? 'Less' : 'More'} />
+            )}
+          </Card>
+        </Column>
+      )}
+    </Row>
   );
 };
 
@@ -439,25 +508,21 @@ export const RenderBlock = ({ of }: any) => {
   let story;
   switch (resolvedOf.type) {
     case 'story': {
-      console.log('resolvedOf.story', resolvedOf.story);
       story = resolvedOf.story;
       break;
     }
     case 'meta': {
-      console.log('resolvedOf.meta', resolvedOf.preparedMeta);
       story = resolvedOf.preparedMeta;
       break;
     }
   }
-  console.log('story', story);
-  const sp = story.parameters;
 
+  const sp = story.parameters;
   const { customCode, noHtml, noSandbox, imports, sandboxTitle } = sp.docs.docPage || {};
   const pageClassnames = classNames({
     DocPage: true,
   });
 
-  // Get the fallback source, but only if it's not an object string
   const fallbackSource =
     sp.docs.source.originalSource && !isObjectString(sp.docs.source.originalSource)
       ? sp.docs.source.originalSource

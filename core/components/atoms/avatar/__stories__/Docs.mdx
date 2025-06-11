@@ -1,0 +1,131 @@
+import { Avatar } from '@/index';
+import * as AvatarStories from "./index.stories.tsx";
+import { RenderBlock } from "../../../../utils/docPage/RenderBlock.tsx";
+import { Meta, Title, Description, Primary, Story, Controls, Source, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
+
+<Meta of={AvatarStories} />
+<br/>
+<Title />
+
+Avatar is used to identify an entity through display pictures, icons or their initials. It provides a visual representation of users, bots, organizations, or groups within the interface.
+
+<RenderBlock of={AvatarStories.DefaultAvatar} />
+
+<ArgTypes />
+
+## Overview
+
+Avatar components support multiple content types including initials, icons, and images. They come in different appearances, shapes, and sizes to accommodate various use cases in your application. The component includes built-in tooltip support and accessibility features.
+
+## Variants
+
+### Appearances
+
+Avatar comes in 9 different appearances to provide visual variety and help distinguish between different entities:
+
+<RenderBlock of={AvatarStories.Appearance} />
+
+### Shapes
+
+Avatar supports two distinct shapes, each serving different purposes:
+
+- **Round Avatar**: Represents a single entity (user, bot, or app)
+- **Square Avatar**: Represents a group of entities or organization
+
+<RenderBlock of={AvatarStories.Shape} />
+
+### Sizes
+
+Avatar is available in two sizes to fit different layout requirements:
+
+<RenderBlock of={AvatarStories.Size} />
+
+## States
+
+Avatar supports multiple interactive states including default, focus, and disabled states:
+
+<RenderBlock of={AvatarStories.States} />
+
+## Content Types
+
+### With Icon
+
+Icons can be used to represent bots, applications, or specific entity types:
+
+<RenderBlock of={AvatarStories.WithIcon} />
+
+### With Image
+
+Custom images can be displayed within the avatar for personalized representations:
+
+<RenderBlock of={AvatarStories.WithImage} />
+
+### With SVG
+
+SVG graphics are supported for custom icon implementations:
+
+<RenderBlock of={AvatarStories.WithSvg} />
+
+## Advanced Features
+
+### Presence Indicators
+
+Round avatars can include presence indicators to show user availability status:
+
+<RenderBlock of={AvatarStories.Presence} />
+
+### Status Indicators
+
+Status indicators can be added to provide additional context about the user's current state:
+
+<RenderBlock of={AvatarStories.StatusWithIcon} />
+
+### Tooltip Suffix
+
+Additional information can be appended to the tooltip, especially useful for disabled states:
+
+<RenderBlock of={AvatarStories.WithSuffix} />
+
+## Structure
+
+### Technical Specifications
+
+**Round Avatar:**
+- Height/Width: 24px (tiny), 32px (regular)
+- Shape: Circular
+
+**Square Avatar:**
+- Height/Width: 24px (tiny), 32px (regular)
+- Corner radius: 4px
+
+## Configurations
+
+### Props
+
+- **appearance**: Controls the color scheme (primary, secondary, alert, warning, success, accent1-4)
+- **size**: Sets the avatar size (tiny, regular)
+- **shape**: Defines the avatar shape (round, square)
+- **firstName/lastName**: Used for generating initials when no image/icon is provided
+- **withTooltip**: Enables tooltip display on hover
+- **disabled**: Applies disabled styling and behavior
+- **presence**: Shows presence indicator (active, away)
+- **status**: Displays custom status indicator
+- **tooltipSuffix**: Appends additional text to the tooltip
+
+## Best Practices
+
+### Color Assignment
+Background colors are generated dynamically and should remain consistent for each entity throughout the application.
+
+### Fallback Hierarchy
+The component follows this fallback order:
+1. Custom image/icon
+2. Generated initials from firstName/lastName
+3. Default placeholder
+
+### Usage Guidelines
+- Use round avatars for individual users, bots, or apps
+- Use square avatars for groups or organizations
+- Avoid using square avatars near icon buttons to prevent confusion
+- Use appropriate background colors for PNG/SVG images without backgrounds
+- Add tooltip suffixes for disabled states to inform users 
