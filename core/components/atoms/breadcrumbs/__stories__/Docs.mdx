@@ -1,0 +1,66 @@
+import { Breadcrumbs } from '@/index';
+import * as BreadcrumbsStories from "./index.stories.tsx";
+import { RenderBlock } from "../../../../utils/docPage/RenderBlock.tsx";
+import { Meta, Title, Description, Primary, Story, Controls, Source, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
+
+<Meta of={BreadcrumbsStories} />
+<br/>
+<Title />
+
+Breadcrumbs indicate the path of a record and help users navigate back to parent records. They show hierarchical progress from highest to lowest entity level, helping users understand their current location within the application.
+
+<RenderBlock of={BreadcrumbsStories.LessThan4Levels} />
+
+<ArgTypes />
+
+## Overview
+
+Breadcrumbs help users become aware of their current location with respect to the rest of the product/application. They show the hierarchical progress from the highest entity level to the lowest.
+
+As helpful as they are, breadcrumbs should never replace the main navigation on a page.
+
+## Variants
+
+### Standard Navigation (Less Than 4 Levels)
+
+For breadcrumb hierarchies with 4 or fewer levels, all levels are displayed in sequence.
+
+<RenderBlock of={BreadcrumbsStories.LessThan4Levels} />
+
+### Collapsed Navigation (More Than 4 Levels)
+
+When there are more than 4 levels of hierarchy, only the first and last breadcrumbs are shown. The intermediate levels can be accessed through a menu button in the middle.
+
+<RenderBlock of={BreadcrumbsStories.MoreThan4Levels} />
+
+## States
+
+Breadcrumbs inherit states from the subtle link component including Default, Hover, Active, Focus, and Disabled states.
+
+## Label Truncation and Tooltips
+
+### With Tooltip
+
+When labels exceed the maximum width of 160px, text truncates with '…' and the full label is visible on hover inside a tooltip.
+
+<RenderBlock of={BreadcrumbsStories.WithTooltip} />
+
+### Without Tooltip
+
+Standard breadcrumb display without tooltip functionality for shorter labels.
+
+<RenderBlock of={BreadcrumbsStories.WithoutTooltip} />
+
+### Label Truncation in Context
+
+Demonstration of how breadcrumbs work within a page header with label truncation.
+
+<RenderBlock of={BreadcrumbsStories.LabelTruncate} />
+
+## Usage Guidelines
+
+- Use breadcrumbs to show hierarchical navigation paths
+- Never replace main navigation with breadcrumbs
+- Enable tooltips when labels might exceed 160px width
+- For more than 4 levels, use the collapsed view with menu access
+- Ensure breadcrumbs reflect the actual information architecture 

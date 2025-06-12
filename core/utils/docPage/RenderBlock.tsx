@@ -151,8 +151,17 @@ const getRawPreviewCode = (customCode: string, comp: React.ReactNode, storyArgs?
     console.log('Using storyArgs for JSX generation:', storyArgs);
     const componentName =
       comp && typeof comp === 'object' && 'type' in comp
-        ? (comp.type as any)?.displayName || (comp.type as any)?.name || 'Component'
+        ? typeof (comp.type as any) === 'string'
+          ? (comp.type as any) // Handle native HTML elements like 'div', 'span', etc.
+          : (comp.type as any)?.displayName || (comp.type as any)?.name || 'Component'
         : 'Component';
+
+    // If the root component is a native HTML element, use reactElementToJSXString
+    // instead of trying to apply story args to it
+    if (typeof (comp as any)?.type === 'string') {
+      const jsx = reactElementToJSXString(comp, JSXtoStringOptions);
+      return `() => ${jsx}`;
+    }
 
     let children = storyArgs.children;
     if (!children && comp && typeof comp === 'object' && 'props' in comp) {

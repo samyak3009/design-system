@@ -5,7 +5,7 @@ import { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Backdrop, Button } from '@/index';
 
 const meta: Meta<typeof Backdrop> = {
-  title: 'Components/Backdrop/All',
+  title: 'Components/Backdrop',
   component: Backdrop,
   parameters: {
     docs: {

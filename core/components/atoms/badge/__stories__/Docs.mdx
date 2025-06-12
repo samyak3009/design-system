@@ -1,0 +1,118 @@
+import { Badge } from '@/index';
+import * as BadgeStories from "./index.stories.tsx";
+import { RenderBlock } from "../../../../utils/docPage/RenderBlock.tsx";
+import { Meta, Title, Description, Primary, Story, Controls, Source, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
+
+<Meta of={BadgeStories} />
+<br/>
+<Title />
+
+Badge is used to tag entities with concise and relevant information. Badges help users understand the difference between multiple entities by displaying concise metadata of that entity as a label.
+
+<RenderBlock of={BadgeStories.All} />
+
+<ArgTypes />
+
+### Overview
+
+Badge helps the users to understand the difference between multiple entities by displaying concise metadata of that entity as a label.
+
+<RenderBlock of={BadgeStories.All} />
+
+### Variants
+
+Badge comes in **2 variants** based on their visual weight – solid and subtle.
+
+#### Solid Badge
+
+Solid style is used to highlight important information on the page so that they can be recognized easily. Solid style helps the badge to easily pop out in a page.
+
+<RenderBlock of={BadgeStories.SolidWarning} />
+
+#### Subtle Badge
+
+Subtle style is used when a lot of entities on a single page need tagging/labelling. In that case, using solid badges becomes a bit overwhelming e.g. tags in a list. This is why subtle badges use the lightest shade of the colors.
+
+<RenderBlock of={BadgeStories.SubtleWarning} />
+
+### Appearance
+
+A badge comes in 9 appearances, providing various color options to categorize and differentiate content.
+
+<RenderBlock of={BadgeStories.Solid} />
+
+### Structure
+
+<table style={{width: "100%"}}>
+  <tbody>
+    <tr>
+      <th style={{width:"50%",  textAlign: "left"}}>Property</th>
+      <th style={{width:"50%",  textAlign: "left"}}>Value(s)</th>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>Height</td>
+      <td>20 px</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>Max width</td>
+      <td>160 px</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>Corner radius</td>
+      <td>4 px</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>Padding<br/><em>(top, right, bottom, left)</em></td>
+      <td>2 px, 4 px, 2 px, 4 px</td>
+    </tr>
+  </tbody>
+</table>
+
+### Configurations
+
+<table style={{width: "100%"}}>
+  <tbody>
+    <tr>
+      <th style={{width:"33%", textAlign: "left"}}>Property</th>
+      <th style={{width:"33%", textAlign: "left"}}>Value(s)</th>
+      <th style={{width:"33%", textAlign: "left"}}>Default value</th>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>appearance</td>
+      <td>
+          <ul>
+              <li>primary</li>
+              <li>secondary</li>
+              <li>alert</li>
+              <li>warning</li>
+              <li>success</li>
+              <li>accent1</li>
+              <li>accent2</li>
+              <li>accent3</li>
+              <li>accent4</li>
+          </ul>
+      </td>
+      <td>secondary</td>
+    </tr>
+    <tr style={{verticalAlign: "top"}}>
+      <td>subtle</td>
+      <td>
+          <ul>
+              <li>true</li>
+              <li>false</li>
+          </ul>
+      </td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>
+
+### Usage
+
+#### Spacing Between Badges
+Badges should maintain a **minimum spacing of 8px** from the content on either side to ensure proper visual separation and readability.
+
+#### Solid vs Subtle
+Use solid badges to highlight important information that needs to stand out on the page. Use subtle badges when tagging multiple entities on a single page to avoid visual overwhelming.
+
+<RenderBlock of={BadgeStories.Subtle} /> 
